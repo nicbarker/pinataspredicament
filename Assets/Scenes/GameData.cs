@@ -5,13 +5,13 @@ using UnityEngine;
 public class GameData : MonoBehaviour
 {
     public int gems = 0;
-    public float moveLeftTimer = 30f;
-    public float moveRightTimer = 30f;
-    public float jumpTimer = 30f;
+    public float moveLeftTimer = 0;
+    public float moveRightTimer = 0;
+    public float jumpTimer = 0;
     // Start is called before the first frame update
     void Start()
     {
-        
+
     }
 
     // Update is called once per frame
