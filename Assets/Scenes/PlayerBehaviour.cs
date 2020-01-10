@@ -1,9 +1,11 @@
-﻿using System.Collections;
+﻿    using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class PlayerBehaviour : MonoBehaviour
 {
+    public GameData gameData;
+
     public float basePlayerSpeed = 10;
     public float animationStepTiming = 0.01f;
     public Sprite idleSprite;
@@ -22,7 +24,11 @@ public class PlayerBehaviour : MonoBehaviour
     void Update()
     {
         float speed = Input.GetAxisRaw("Horizontal") * Time.deltaTime * basePlayerSpeed;
-        if (System.Math.Abs(speed) > 0.001f)
+        if (System.Math.Abs(speed) > 0.001f && (
+            (speed > 0 && gameData.moveRightTimer > 0)
+            ||
+            (speed < 0 && gameData.moveLeftTimer > 0)
+            ))
         {
             GetComponent<SpriteRenderer>().flipX = speed < 0;
             transform.position += new Vector3(speed, 0, 0);
@@ -34,7 +40,7 @@ public class PlayerBehaviour : MonoBehaviour
                 if (currentAnimationStepTiming < 0)
                 {
                     currentAnimationStep++;
-                    if (currentAnimationStep > walkingAnimationSteps.Length)
+                    if (currentAnimationStep > walkingAnimationSteps.Length - 1)
                     {
                         currentAnimationStep = 0;
                     }
@@ -48,7 +54,7 @@ public class PlayerBehaviour : MonoBehaviour
             GetComponent<SpriteRenderer>().sprite = idleSprite;
         }
 
-        if (Input.GetKeyDown(KeyCode.Space) && inContactWithGround)
+        if (Input.GetKeyDown(KeyCode.Space) && inContactWithGround && gameData.jumpTimer > 0)
         {
             GetComponent<Rigidbody2D>().AddForce(new Vector2(0, 2500));
             inContactWithGround = false;
@@ -58,6 +64,20 @@ public class PlayerBehaviour : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        inContactWithGround = true;
+        // FloorAndWalls layer
+        if (collision.gameObject.layer == 8)
+        {
+            inContactWithGround = true;
+        }
+    }
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        // Gems layer
+        if (collision.gameObject.layer == 9)
+        {
+            gameData.gems++;
+            Destroy(collision.gameObject);
+        }
     }
 }
