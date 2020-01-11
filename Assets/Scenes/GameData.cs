@@ -8,7 +8,8 @@ public class GameData : MonoBehaviour
     {
         { Ability.MOVE_LEFT, 30f },
         { Ability.MOVE_RIGHT, 30f },
-        { Ability.JUMP, 30f }
+        { Ability.JUMP, 30f },
+        { Ability.DOUBLE_JUMP, 30f }
     };
 
     // Start is called before the first frame update
@@ -29,14 +30,34 @@ public class GameData : MonoBehaviour
 
     public bool TryActivate(Ability ability)
     {
-        if (gems > 0)
+        if (!CanActivate(ability))
         {
-            timers[ability] = 30f;
-            //gems--;
-            return true;
+            return false;
         }
 
-        return false;
+        timers[ability] = 30f;
+        //gems--;
+        return true;
+    }
+
+    private bool CanActivate(Ability ability)
+    {
+        if (gems <= 0)
+        {
+            return false;
+        }
+
+        switch (ability)
+        {
+            case Ability.JUMP:
+            case Ability.MOVE_LEFT:
+            case Ability.MOVE_RIGHT:
+                return true;
+            case Ability.DOUBLE_JUMP:
+                return IsAbilityActive(Ability.JUMP);
+            default:
+                throw new System.Exception($"Unknown ability {ability.ToString()}");
+        }
     }
 
     public float RemainingTimeFor(Ability ability)
