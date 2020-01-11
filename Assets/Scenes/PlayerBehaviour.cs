@@ -33,25 +33,25 @@ public class PlayerBehaviour : MonoBehaviour
             GetComponent<SpriteRenderer>().flipX = speed < 0;
             transform.position += new Vector3(speed, 0, 0);
 
-            if (inContactWithGround)
-            {
-                currentAnimationStepTiming -= Time.deltaTime;
+            //if (inContactWithGround)
+            //{
+            //    currentAnimationStepTiming -= Time.deltaTime;
 
-                if (currentAnimationStepTiming < 0)
-                {
-                    currentAnimationStep++;
-                    if (currentAnimationStep > walkingAnimationSteps.Length - 1)
-                    {
-                        currentAnimationStep = 0;
-                    }
-                    currentAnimationStepTiming = animationStepTiming;
-                    GetComponent<SpriteRenderer>().sprite = walkingAnimationSteps[currentAnimationStep];
-                }
-            }
+            //    if (currentAnimationStepTiming < 0)
+            //    {
+            //        currentAnimationStep++;
+            //        if (currentAnimationStep > walkingAnimationSteps.Length - 1)
+            //        {
+            //            currentAnimationStep = 0;
+            //        }
+            //        currentAnimationStepTiming = animationStepTiming;
+            //        GetComponent<SpriteRenderer>().sprite = walkingAnimationSteps[currentAnimationStep];
+            //    }
+            //}
         }
         else
         {
-            currentAnimationStep = 0;
+            //currentAnimationStep = 0;
             GetComponent<SpriteRenderer>().sprite = idleSprite;
         }
 
@@ -59,7 +59,7 @@ public class PlayerBehaviour : MonoBehaviour
         {
             GetComponent<Rigidbody2D>().AddForce(new Vector2(0, 2500));
             inContactWithGround = false;
-            currentAnimationStep = 0;
+            //currentAnimationStep = 0;
         }
     }
 
