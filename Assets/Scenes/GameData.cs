@@ -7,19 +7,13 @@ public class GameData : MonoBehaviour
     public int stars = 0;
     private readonly Dictionary<Ability, float> timers = new Dictionary<Ability, float>()
     {
-        { Ability.MOVE_LEFT, 30f },
-        { Ability.MOVE_RIGHT, 30f },
-        { Ability.JUMP, 30f },
-        { Ability.DOUBLE_JUMP, 30f }
+        { Ability.MOVE_LEFT, 0f },
+        { Ability.MOVE_RIGHT, 0f },
+        { Ability.JUMP, 0f },
+        { Ability.DOUBLE_JUMP, 0f },
+        { Ability.DICE_GUN, 0f },
     };
 
-    // Start is called before the first frame update
-    void Start()
-    {
-
-    }
-
-    // Update is called once per frame
     void Update()
     {
         var keys = new List<Ability>(timers.Keys);
@@ -53,6 +47,7 @@ public class GameData : MonoBehaviour
             case Ability.JUMP:
             case Ability.MOVE_LEFT:
             case Ability.MOVE_RIGHT:
+            case Ability.DICE_GUN:
                 return true;
             case Ability.DOUBLE_JUMP:
                 return IsAbilityActive(Ability.JUMP);
