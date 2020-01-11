@@ -32,11 +32,7 @@ public class PlayerBehaviour : MonoBehaviour
         }
 
         float speed = Input.GetAxisRaw("Horizontal") * Time.deltaTime * basePlayerSpeed;
-        if (System.Math.Abs(speed) > 0.001f && (
-            (speed > 0 && gameData.IsAbilityActive(Ability.MOVE_RIGHT))
-            ||
-            (speed < 0 && gameData.IsAbilityActive(Ability.MOVE_LEFT))
-            ))
+        if (CanApplySpeed(speed))
         {
             GetComponent<SpriteRenderer>().flipX = speed < 0;
             transform.position += new Vector3(speed, 0, 0);
@@ -63,13 +59,33 @@ public class PlayerBehaviour : MonoBehaviour
             GetComponent<SpriteRenderer>().sprite = idleSprite;
         }
 
-        if (Input.GetKeyDown(KeyCode.Space))
+        if (Input.GetKeyDown(KeyCode.Q))
         {
-            OnSpaceKeyDown();
+            OnDiceGun();
+        }
+
+        if (Input.GetKeyDown(KeyCode.Space)
+            || Input.GetKeyDown(KeyCode.UpArrow)
+            || Input.GetKeyDown(KeyCode.W))
+        {
+            OnJump();
         }
     }
 
-    private void OnSpaceKeyDown()
+    private bool CanApplySpeed(float speed)
+    {
+        return System.Math.Abs(speed) > 0.001f && (
+            (speed > 0 && gameData.IsAbilityActive(Ability.MOVE_RIGHT))
+            || (speed < 0 && gameData.IsAbilityActive(Ability.MOVE_LEFT))
+        );
+    }
+
+    private void OnDiceGun()
+    {
+        Debug.Log("pew pew");
+    }
+
+    private void OnJump()
     {
         if (inContactWithGround && gameData.IsAbilityActive(Ability.JUMP))
         {
