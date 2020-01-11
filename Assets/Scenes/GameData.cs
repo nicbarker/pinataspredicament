@@ -6,9 +6,9 @@ public class GameData : MonoBehaviour
     public int gems = 0;
     private readonly Dictionary<Ability, float> timers = new Dictionary<Ability, float>()
     {
-        { Ability.MOVE_LEFT, 30f },
-        { Ability.MOVE_RIGHT, 30f },
-        { Ability.JUMP, 30f }
+        { Ability.MOVE_LEFT, 0 },
+        { Ability.MOVE_RIGHT, 0 },
+        { Ability.JUMP, 0 }
     };
 
     // Start is called before the first frame update
@@ -29,7 +29,13 @@ public class GameData : MonoBehaviour
 
     public bool TryActivate(Ability ability)
     {
-        if (gems > 0)
+        int abilitiesActive = 0;
+        foreach (KeyValuePair<Ability, float> entry in timers)
+        {
+            abilitiesActive += entry.Value > 0 ? 1 : 0;
+        }
+
+        if (gems > abilitiesActive)
         {
             timers[ability] = 30f;
             //gems--;
