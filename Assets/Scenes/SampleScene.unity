@@ -876,6 +876,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   gameData: {fileID: 1744078705}
+  sceneChanger: {fileID: 700869396}
   basePlayerSpeed: 10
   animationStepTiming: 0.05
   idleSprite: {fileID: 21300000, guid: 9bda779695a9349f68145bfdd2ca2e01, type: 3}
@@ -1336,6 +1337,18 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 657668075}
   m_CullTransparentMesh: 0
+--- !u!114 &700869396 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 6109275567564207061, guid: f38044acd3c7e46d193bdfafa6250ff0,
+    type: 3}
+  m_PrefabInstance: {fileID: 2119317553}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 03284dc8cf3154d9bade282e3ecc0545, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &717116216
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1539,6 +1552,12 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 773920411}
   m_CullTransparentMesh: 0
+--- !u!95 &779323698 stripped
+Animator:
+  m_CorrespondingSourceObject: {fileID: 6109275568029793754, guid: f38044acd3c7e46d193bdfafa6250ff0,
+    type: 3}
+  m_PrefabInstance: {fileID: 2119317553}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &847396667
 GameObject:
   m_ObjectHideFlags: 0
@@ -3172,3 +3191,77 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 0
+--- !u!1001 &2119317553
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 6109275567564207060, guid: f38044acd3c7e46d193bdfafa6250ff0,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6109275567564207060, guid: f38044acd3c7e46d193bdfafa6250ff0,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6109275567564207060, guid: f38044acd3c7e46d193bdfafa6250ff0,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6109275567564207060, guid: f38044acd3c7e46d193bdfafa6250ff0,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6109275567564207060, guid: f38044acd3c7e46d193bdfafa6250ff0,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6109275567564207060, guid: f38044acd3c7e46d193bdfafa6250ff0,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6109275567564207060, guid: f38044acd3c7e46d193bdfafa6250ff0,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6109275567564207060, guid: f38044acd3c7e46d193bdfafa6250ff0,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 22
+      objectReference: {fileID: 0}
+    - target: {fileID: 6109275567564207060, guid: f38044acd3c7e46d193bdfafa6250ff0,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6109275567564207060, guid: f38044acd3c7e46d193bdfafa6250ff0,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6109275567564207060, guid: f38044acd3c7e46d193bdfafa6250ff0,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6109275567564207061, guid: f38044acd3c7e46d193bdfafa6250ff0,
+        type: 3}
+      propertyPath: animator
+      value: 
+      objectReference: {fileID: 779323698}
+    - target: {fileID: 6109275567564207067, guid: f38044acd3c7e46d193bdfafa6250ff0,
+        type: 3}
+      propertyPath: m_Name
+      value: SceneChanger
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: f38044acd3c7e46d193bdfafa6250ff0, type: 3}
