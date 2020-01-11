@@ -329,7 +329,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   gameData: {fileID: 1744078705}
-  abilityKey: jump
+  ability: 2
   abilityLabel: Jump
 --- !u!1 &314075651
 GameObject:
@@ -914,7 +914,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   gameData: {fileID: 1744078705}
-  abilityKey: moveLeft
+  ability: 0
   abilityLabel: Left
 --- !u!114 &773920414
 MonoBehaviour:
@@ -1317,7 +1317,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   gameData: {fileID: 1744078705}
-  abilityKey: moveRight
+  ability: 1
   abilityLabel: Right
 --- !u!1 &1330388656
 GameObject:
