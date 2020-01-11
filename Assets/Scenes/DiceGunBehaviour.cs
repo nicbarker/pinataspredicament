@@ -31,13 +31,20 @@ public class DiceGunBehaviour : MonoBehaviour
             .AddForce(new Vector2(xAxisForceComponent, 0));
     }
 
-    private bool CanShoot() =>
-        lastShotAt switch
+    private bool CanShoot()
+    {
+        switch (lastShotAt)
         {
-            null => true, // has not been shot yet
-            System.DateTime lastShotAt => MillisecondsSince(lastShotAt) > 500,
-        };
+            // has not been shot yet
+            case null:
+                return true;
+            case System.DateTime lastShotAt:
+                return MillisecondsSince(lastShotAt) > 500;
+        }
+    }
 
-    private double MillisecondsSince(System.DateTime time) =>
-        System.DateTime.UtcNow.Subtract(time).TotalMilliseconds;
+    private double MillisecondsSince(System.DateTime time)
+    {
+        return System.DateTime.UtcNow.Subtract(time).TotalMilliseconds;
+    }
 }
