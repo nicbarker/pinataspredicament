@@ -57,7 +57,7 @@ public class GameData : MonoBehaviour
         if (gems > 0)
         {
             abilityStore.Activate(ability);
-            gems--;
+            //gems--;
             return true;
         }
 
