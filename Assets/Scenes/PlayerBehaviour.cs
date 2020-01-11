@@ -5,7 +5,7 @@ public class PlayerBehaviour : MonoBehaviour
 {
     public GameData gameData;
     public SceneChangerBehaviour sceneChanger;
-    public GameObject diceGunProjectilePrefab;
+    public DiceGunBehaviour diceGun;
 
     public float basePlayerSpeed = 10;
     public float animationStepTiming = 0.01f;
@@ -88,14 +88,8 @@ public class PlayerBehaviour : MonoBehaviour
             return;
         }
 
-        GameObject projectile = Instantiate(diceGunProjectilePrefab);
-        projectile.transform.position = transform.position;
-
         var isFacingLeft = GetComponent<SpriteRenderer>().flipX;
-        var xAxisForceComponent = 1000 * (isFacingLeft ? -1 : 1);
-        projectile
-            .GetComponent<Rigidbody2D>()
-            .AddForce(new Vector2(xAxisForceComponent, 0));
+        diceGun.TryShoot(startPosition: transform.position, isFacingLeft);
     }
 
     private void OnJump()
