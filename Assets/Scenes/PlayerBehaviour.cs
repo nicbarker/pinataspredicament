@@ -4,6 +4,7 @@ using UnityEngine.SceneManagement;
 public class PlayerBehaviour : MonoBehaviour
 {
     public GameData gameData;
+    public SceneChangerBehaviour sceneChanger;
 
     public float basePlayerSpeed = 10;
     public float animationStepTiming = 0.01f;
@@ -13,6 +14,7 @@ public class PlayerBehaviour : MonoBehaviour
     private bool inContactWithGround = true;
     private int currentAnimationStep = 0;
     private float currentAnimationStepTiming;
+    private bool isDead = false;
 
     // Start is called before the first frame update
     void Start()
@@ -23,6 +25,11 @@ public class PlayerBehaviour : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (isDead)
+        {
+            return;
+        }
+
         float speed = Input.GetAxisRaw("Horizontal") * Time.deltaTime * basePlayerSpeed;
         if (System.Math.Abs(speed) > 0.001f && (
             (speed > 0 && gameData.IsAbilityActive(Ability.MOVE_RIGHT))
@@ -65,8 +72,9 @@ public class PlayerBehaviour : MonoBehaviour
 
     private void Die()
     {
+        isDead = true;
         var activeScene = SceneManager.GetActiveScene();
-        SceneManager.LoadScene(activeScene.buildIndex);
+        sceneChanger.FadeToScene(activeScene.buildIndex);
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
