@@ -3,7 +3,7 @@ using UnityEngine;
 
 public class GameData : MonoBehaviour
 {
-    public class AbilityStore
+    private class AbilityStore
     {
         private readonly Dictionary<Ability, float> timers = new Dictionary<Ability, float>()
         {
@@ -38,7 +38,8 @@ public class GameData : MonoBehaviour
     }
 
     public int gems = 0;
-    public AbilityStore abilityStore = new AbilityStore();
+    private AbilityStore abilityStore = new AbilityStore();
+
     // Start is called before the first frame update
     void Start()
     {
@@ -49,5 +50,27 @@ public class GameData : MonoBehaviour
     void Update()
     {
         abilityStore.Tick();
+    }
+
+    public bool TryActivate(Ability ability)
+    {
+        if (gems > 0)
+        {
+            abilityStore.Activate(ability);
+            gems--;
+            return true;
+        }
+
+        return false;
+    }
+
+    public float RemainingTimeFor(Ability ability)
+    {
+        return abilityStore.RemainingTimeFor(ability);
+    }
+
+    public bool IsAbilityActive(Ability ability)
+    {
+        return abilityStore.IsActive(ability);
     }
 }

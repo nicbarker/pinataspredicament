@@ -23,9 +23,9 @@ public class PlayerBehaviour : MonoBehaviour
     {
         float speed = Input.GetAxisRaw("Horizontal") * Time.deltaTime * basePlayerSpeed;
         if (System.Math.Abs(speed) > 0.001f && (
-            (speed > 0 && gameData.abilityStore.IsActive(Ability.MOVE_RIGHT))
+            (speed > 0 && gameData.IsAbilityActive(Ability.MOVE_RIGHT))
             ||
-            (speed < 0 && gameData.abilityStore.IsActive(Ability.MOVE_LEFT))
+            (speed < 0 && gameData.IsAbilityActive(Ability.MOVE_LEFT))
             ))
         {
             GetComponent<SpriteRenderer>().flipX = speed < 0;
@@ -46,13 +46,14 @@ public class PlayerBehaviour : MonoBehaviour
                     GetComponent<SpriteRenderer>().sprite = walkingAnimationSteps[currentAnimationStep];
                 }
             }
-        } else
+        }
+        else
         {
             currentAnimationStep = 0;
             GetComponent<SpriteRenderer>().sprite = idleSprite;
         }
 
-        if (Input.GetKeyDown(KeyCode.Space) && inContactWithGround && gameData.abilityStore.IsActive(Ability.JUMP))
+        if (Input.GetKeyDown(KeyCode.Space) && inContactWithGround && gameData.IsAbilityActive(Ability.JUMP))
         {
             GetComponent<Rigidbody2D>().AddForce(new Vector2(0, 2500));
             inContactWithGround = false;
