@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class PlayerBehaviour : MonoBehaviour
 {
@@ -12,6 +13,7 @@ public class PlayerBehaviour : MonoBehaviour
     private bool inContactWithGround = true;
     private int currentAnimationStep = 0;
     private float currentAnimationStepTiming;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -61,22 +63,38 @@ public class PlayerBehaviour : MonoBehaviour
         }
     }
 
+    private void Die()
+    {
+        var activeScene = SceneManager.GetActiveScene();
+        SceneManager.LoadScene(activeScene.buildIndex);
+    }
+
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        // FloorAndWalls layer
-        if (collision.gameObject.layer == 8)
+
+        switch ((Layers)collision.gameObject.layer)
         {
-            inContactWithGround = true;
+            case Layers.FloorAndWalls:
+                inContactWithGround = true;
+                return;
+            default:
+                return;
         }
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        // Gems layer
-        if (collision.gameObject.layer == 9)
+        switch ((Layers)collision.gameObject.layer)
         {
-            gameData.gems++;
-            Destroy(collision.gameObject);
+            case Layers.Gems:
+                gameData.gems++;
+                Destroy(collision.gameObject);
+                return;
+            case Layers.DeathZone:
+                Die();
+                return;
+            default:
+                return;
         }
     }
 }
