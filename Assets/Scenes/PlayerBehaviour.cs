@@ -90,6 +90,7 @@ public class PlayerBehaviour : MonoBehaviour
                 gameData.gems++;
                 Destroy(collision.gameObject);
                 return;
+            case Layers.Enemies:
             case Layers.DeathZone:
                 Die();
                 return;
