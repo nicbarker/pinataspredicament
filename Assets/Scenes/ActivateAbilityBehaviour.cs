@@ -1,25 +1,23 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.UI;
 
 public class ActivateAbilityBehaviour : MonoBehaviour
 {
     public GameData gameData;
-    public string abilityKey;
+    public Ability ability;
     public string abilityLabel;
     // Start is called before the first frame update
     void Start()
     {
-        GetComponent<Button>().onClick.AddListener(() => gameData.abilityTimers[abilityKey] = 30f);
+        GetComponent<Button>().onClick.AddListener(() => gameData.abilityStore.Activate(ability));
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (gameData.abilityTimers[abilityKey] > 0)
+        if (gameData.abilityStore.IsActive(ability))
         {
-            GetComponentInChildren<Text>().text = abilityLabel + " (" + (int)gameData.abilityTimers[abilityKey] + ")";
+            GetComponentInChildren<Text>().text = abilityLabel + " (" + (int)gameData.abilityStore.RemainingTimeFor(ability) + ")";
         }
         else
         {
