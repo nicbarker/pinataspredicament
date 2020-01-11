@@ -15,8 +15,8 @@ TagManager:
   - 
   - FloorAndWall
   - Gems
-  - 
-  - 
+  - Enemies
+  - EdgeColliders
   - 
   - 
   - 
