@@ -2,5 +2,7 @@
 {
     FloorAndWalls = 8,
     Gems = 9,
-    DeathZone = 10
+    Enemies = 10,
+    EdgeCollider = 11,
+    DeathZone = 12
 }
