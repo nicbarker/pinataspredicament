@@ -325,10 +325,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 231509475}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4f0ead121b0ad435e91b804b2f7ec421, type: 3}
+  m_Script: {fileID: 11500000, guid: 2de12e2cf3cee4c40ac78ee6c52021a2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   gameData: {fileID: 1744078705}
+  abilityKey: jump
+  abilityLabel: Jump
 --- !u!1 &314075651
 GameObject:
   m_ObjectHideFlags: 0
@@ -908,10 +910,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 773920411}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c2d0851d1455a4d059237ae2d44dad66, type: 3}
+  m_Script: {fileID: 11500000, guid: 2de12e2cf3cee4c40ac78ee6c52021a2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   gameData: {fileID: 1744078705}
+  abilityKey: moveLeft
+  abilityLabel: Left
 --- !u!114 &773920414
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1309,10 +1313,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 1073576670}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8d100b28156dc42c384a397d1cba0bd0, type: 3}
+  m_Script: {fileID: 11500000, guid: 2de12e2cf3cee4c40ac78ee6c52021a2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   gameData: {fileID: 1744078705}
+  abilityKey: moveRight
+  abilityLabel: Right
 --- !u!1 &1330388656
 GameObject:
   m_ObjectHideFlags: 0
@@ -1603,9 +1609,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   gems: 0
-  moveLeftTimer: 0
-  moveRightTimer: 0
-  jumpTimer: 0
 --- !u!4 &1744078706
 Transform:
   m_ObjectHideFlags: 0

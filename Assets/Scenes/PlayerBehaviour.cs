@@ -25,9 +25,9 @@ public class PlayerBehaviour : MonoBehaviour
     {
         float speed = Input.GetAxisRaw("Horizontal") * Time.deltaTime * basePlayerSpeed;
         if (System.Math.Abs(speed) > 0.001f && (
-            (speed > 0 && gameData.moveRightTimer > 0)
+            (speed > 0 && gameData.abilityTimers["moveRight"] > 0)
             ||
-            (speed < 0 && gameData.moveLeftTimer > 0)
+            (speed < 0 && gameData.abilityTimers["moveLeft"] > 0)
             ))
         {
             GetComponent<SpriteRenderer>().flipX = speed < 0;
@@ -54,7 +54,7 @@ public class PlayerBehaviour : MonoBehaviour
             GetComponent<SpriteRenderer>().sprite = idleSprite;
         }
 
-        if (Input.GetKeyDown(KeyCode.Space) && inContactWithGround && gameData.jumpTimer > 0)
+        if (Input.GetKeyDown(KeyCode.Space) && inContactWithGround && gameData.abilityTimers["jump"] > 0)
         {
             GetComponent<Rigidbody2D>().AddForce(new Vector2(0, 2500));
             inContactWithGround = false;
