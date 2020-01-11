@@ -4,6 +4,7 @@ using UnityEngine;
 public class GameData : MonoBehaviour
 {
     public int gems = 0;
+    public int stars = 0;
     private readonly Dictionary<Ability, float> timers = new Dictionary<Ability, float>()
     {
         { Ability.MOVE_LEFT, 0 },
@@ -35,7 +36,7 @@ public class GameData : MonoBehaviour
             abilitiesActive += entry.Value > 0 ? 1 : 0;
         }
 
-        if (gems > abilitiesActive)
+        if (true || gems > abilitiesActive)
         {
             timers[ability] = 30f;
             //gems--;

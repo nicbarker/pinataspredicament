@@ -64,7 +64,7 @@ public class PlayerBehaviour : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.Space) && inContactWithGround && gameData.IsAbilityActive(Ability.JUMP))
         {
-            GetComponent<Rigidbody2D>().AddForce(new Vector2(0, 2500));
+            GetComponent<Rigidbody2D>().AddForce(new Vector2(0, 2800));
             inContactWithGround = false;
             //currentAnimationStep = 0;
         }
@@ -101,6 +101,10 @@ public class PlayerBehaviour : MonoBehaviour
             case Layers.Enemies:
             case Layers.DeathZone:
                 Die();
+                return;
+            case Layers.Stars:
+                gameData.stars++;
+                Destroy(collision.gameObject);
                 return;
             default:
                 return;

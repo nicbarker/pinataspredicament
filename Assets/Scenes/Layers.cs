@@ -4,5 +4,6 @@
     Gems = 9,
     Enemies = 10,
     EdgeCollider = 11,
-    DeathZone = 12
+    Stars = 12,
+    DeathZone = 13
 }
