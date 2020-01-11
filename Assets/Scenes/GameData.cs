@@ -3,29 +3,28 @@ using UnityEngine;
 
 public class GameData : MonoBehaviour
 {
-    public int gems = 0;
-    public int stars = 0;
-    private readonly Dictionary<Ability, float> timers = new Dictionary<Ability, float>()
-    {
-        { Ability.MOVE_LEFT, 30f },
-        { Ability.MOVE_RIGHT, 30f },
-        { Ability.JUMP, 30f },
-        { Ability.DOUBLE_JUMP, 30f }
-    };
+    public static float INITIAL_ABILITY_TIMER = 30f;
 
-    // Start is called before the first frame update
-    void Start()
+    public static Dictionary<Ability, float> MakeAbilityTimers()
     {
-
+        var timers = new Dictionary<Ability, float>();
+        foreach (Ability ability in System.Enum.GetValues(typeof(Ability)))
+        {
+            timers.Add(ability, INITIAL_ABILITY_TIMER);
+        }
+        return timers;
     }
 
-    // Update is called once per frame
+    public int gems = 0;
+    public int stars = 0;
+    private readonly Dictionary<Ability, float> abilityTimers = MakeAbilityTimers();
+
     void Update()
     {
-        var keys = new List<Ability>(timers.Keys);
+        var keys = new List<Ability>(abilityTimers.Keys);
         foreach (var key in keys)
         {
-            timers[key] = Mathf.Max(0, timers[key] - Time.deltaTime);
+            abilityTimers[key] = Mathf.Max(0, abilityTimers[key] - Time.deltaTime);
         }
     }
 
@@ -36,7 +35,7 @@ public class GameData : MonoBehaviour
             return false;
         }
 
-        timers[ability] = 30f;
+        abilityTimers[ability] = 30f;
         //gems--;
         return true;
     }
@@ -53,6 +52,7 @@ public class GameData : MonoBehaviour
             case Ability.JUMP:
             case Ability.MOVE_LEFT:
             case Ability.MOVE_RIGHT:
+            case Ability.DICE_GUN:
                 return true;
             case Ability.DOUBLE_JUMP:
                 return IsAbilityActive(Ability.JUMP);
@@ -63,11 +63,11 @@ public class GameData : MonoBehaviour
 
     public float RemainingTimeFor(Ability ability)
     {
-        return timers[ability];
+        return abilityTimers[ability];
     }
 
     public bool IsAbilityActive(Ability ability)
     {
-        return timers[ability] > 0;
+        return abilityTimers[ability] > 0;
     }
 }

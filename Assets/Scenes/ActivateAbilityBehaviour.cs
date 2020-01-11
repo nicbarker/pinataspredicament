@@ -5,23 +5,21 @@ public class ActivateAbilityBehaviour : MonoBehaviour
 {
     public GameData gameData;
     public Ability ability;
-    public string abilityLabel;
-    // Start is called before the first frame update
+
     void Start()
     {
         GetComponent<Button>().onClick.AddListener(() => gameData.TryActivate(ability));
     }
 
-    // Update is called once per frame
     void Update()
     {
         if (gameData.IsAbilityActive(ability))
         {
-            GetComponentInChildren<Text>().text = abilityLabel + " (" + (int)gameData.RemainingTimeFor(ability) + ")";
+            GetComponentInChildren<Text>().text = ability.GetLabel() + " (" + (int)gameData.RemainingTimeFor(ability) + ")";
         }
         else
         {
-            GetComponentInChildren<Text>().text = abilityLabel;
+            GetComponentInChildren<Text>().text = ability.GetLabel();
         }
     }
 }
