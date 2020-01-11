@@ -3,23 +3,28 @@ using UnityEngine;
 
 public class GameData : MonoBehaviour
 {
+    public static float INITIAL_ABILITY_TIMER = 30f;
+
+    public static Dictionary<Ability, float> MakeAbilityTimers()
+    {
+        var timers = new Dictionary<Ability, float>();
+        foreach (Ability ability in System.Enum.GetValues(typeof(Ability)))
+        {
+            timers.Add(ability, INITIAL_ABILITY_TIMER);
+        }
+        return timers;
+    }
+
     public int gems = 0;
     public int stars = 0;
-    private readonly Dictionary<Ability, float> timers = new Dictionary<Ability, float>()
-    {
-        { Ability.MOVE_LEFT, 0f },
-        { Ability.MOVE_RIGHT, 0f },
-        { Ability.JUMP, 0f },
-        { Ability.DOUBLE_JUMP, 0f },
-        { Ability.DICE_GUN, 0f },
-    };
+    private readonly Dictionary<Ability, float> abilityTimers = MakeAbilityTimers();
 
     void Update()
     {
-        var keys = new List<Ability>(timers.Keys);
+        var keys = new List<Ability>(abilityTimers.Keys);
         foreach (var key in keys)
         {
-            timers[key] = Mathf.Max(0, timers[key] - Time.deltaTime);
+            abilityTimers[key] = Mathf.Max(0, abilityTimers[key] - Time.deltaTime);
         }
     }
 
@@ -30,7 +35,7 @@ public class GameData : MonoBehaviour
             return false;
         }
 
-        timers[ability] = 30f;
+        abilityTimers[ability] = 30f;
         //gems--;
         return true;
     }
@@ -58,11 +63,11 @@ public class GameData : MonoBehaviour
 
     public float RemainingTimeFor(Ability ability)
     {
-        return timers[ability];
+        return abilityTimers[ability];
     }
 
     public bool IsAbilityActive(Ability ability)
     {
-        return timers[ability] > 0;
+        return abilityTimers[ability] > 0;
     }
 }

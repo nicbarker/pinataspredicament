@@ -5,6 +5,7 @@ public class PlayerBehaviour : MonoBehaviour
 {
     public GameData gameData;
     public SceneChangerBehaviour sceneChanger;
+    public GameObject diceGunProjectilePrefab;
 
     public float basePlayerSpeed = 10;
     public float animationStepTiming = 0.01f;
@@ -82,7 +83,19 @@ public class PlayerBehaviour : MonoBehaviour
 
     private void OnDiceGun()
     {
-        Debug.Log("pew pew");
+        if (!gameData.IsAbilityActive(Ability.DICE_GUN))
+        {
+            return;
+        }
+
+        GameObject projectile = Instantiate(diceGunProjectilePrefab);
+        projectile.transform.position = transform.position;
+
+        var isFacingLeft = GetComponent<SpriteRenderer>().flipX;
+        var xAxisForceComponent = 1000 * (isFacingLeft ? -1 : 1);
+        projectile
+            .GetComponent<Rigidbody2D>()
+            .AddForce(new Vector2(xAxisForceComponent, 0));
     }
 
     private void OnJump()

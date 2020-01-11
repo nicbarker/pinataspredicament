@@ -5,5 +5,6 @@
     Enemies = 10,
     EdgeCollider = 11,
     Stars = 12,
-    DeathZone = 13
+    DeathZone = 13,
+    Projectile = 14,
 }

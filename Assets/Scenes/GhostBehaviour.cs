@@ -38,12 +38,14 @@ public class GhostBehaviour : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        // EdgeColliders layer
-        if (collision.gameObject.layer == 11)
+        switch ((Layers)collision.gameObject.layer)
         {
-            movingLeft = !movingLeft;
-
-            GetComponent<SpriteRenderer>().flipX = !movingLeft;
+            case Layers.EdgeCollider:
+                movingLeft = !movingLeft;
+                GetComponent<SpriteRenderer>().flipX = !movingLeft;
+                return;
+            default:
+                return;
         }
     }
 }
