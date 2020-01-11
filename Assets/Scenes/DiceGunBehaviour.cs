@@ -25,10 +25,12 @@ public class DiceGunBehaviour : MonoBehaviour
         GameObject projectile = Instantiate(diceGunProjectilePrefab);
         projectile.transform.position = startPosition;
 
-        var xAxisForceComponent = 1000 * (isFacingLeft ? -1 : 1);
-        projectile
-            .GetComponent<Rigidbody2D>()
-            .AddForce(new Vector2(xAxisForceComponent, 0));
+        var rb = projectile.GetComponent<Rigidbody2D>();
+
+        var xAxisForceComponent = 800 * (isFacingLeft ? -1 : 1);
+        rb.AddForce(new Vector2(xAxisForceComponent, 0));
+
+        rb.AddTorque(500.0f);
     }
 
     private bool CanShoot()
