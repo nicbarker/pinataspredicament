@@ -2,5 +2,6 @@
 {
     MOVE_LEFT,
     MOVE_RIGHT,
-    JUMP
+    JUMP,
+    DOUBLE_JUMP,
 }

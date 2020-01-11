@@ -12,6 +12,7 @@ public class PlayerBehaviour : MonoBehaviour
     public Sprite[] walkingAnimationSteps;
 
     private bool inContactWithGround = true;
+    private bool isDoubleJumping = false;
     private int currentAnimationStep = 0;
     private float currentAnimationStepTiming;
     private bool isDead = false;
@@ -62,17 +63,47 @@ public class PlayerBehaviour : MonoBehaviour
             GetComponent<SpriteRenderer>().sprite = idleSprite;
         }
 
-        if (Input.GetKeyDown(KeyCode.Space) && inContactWithGround && gameData.IsAbilityActive(Ability.JUMP))
+        if (Input.GetKeyDown(KeyCode.Space))
         {
-            GetComponent<Rigidbody2D>().AddForce(new Vector2(0, 2800));
-            inContactWithGround = false;
-            //currentAnimationStep = 0;
+            OnSpaceKeyDown();
         }
+    }
+
+    private void OnSpaceKeyDown()
+    {
+        if (inContactWithGround && gameData.IsAbilityActive(Ability.JUMP))
+        {
+            PerformJump(force: 2800);
+        }
+        else if (!isDoubleJumping && gameData.IsAbilityActive(Ability.DOUBLE_JUMP))
+        {
+            isDoubleJumping = true;
+            PerformJump(force: 1500);
+        }
+    }
+
+    private void PerformJump(int force)
+    {
+        var rigidBodyComponent = GetComponent<Rigidbody2D>();
+
+        // Remove all velocity in the y axis. Improves the feel of double jumping
+        // for two reasons:
+        //   1. spamming double jumping twice doesn't apply ~5000 units of force,
+        //      just applies 2500 again shortly after the first jump
+        //   2. jumping while falling gives you the full jump height rather than
+        //      slowing descent
+        rigidBodyComponent.velocity = new Vector2(rigidBodyComponent.velocity.x, 0);
+
+        rigidBodyComponent.AddForce(new Vector2(0, force));
+
+        inContactWithGround = false;
+        // currentAnimationStep = 0;
     }
 
     private void Die()
     {
         isDead = true;
+        GetComponent<Rigidbody2D>().constraints = RigidbodyConstraints2D.FreezeAll;
         var activeScene = SceneManager.GetActiveScene();
         sceneChanger.FadeToScene(activeScene.buildIndex);
     }
@@ -84,6 +115,7 @@ public class PlayerBehaviour : MonoBehaviour
         {
             case Layers.FloorAndWalls:
                 inContactWithGround = true;
+                isDoubleJumping = false;
                 return;
             default:
                 return;
