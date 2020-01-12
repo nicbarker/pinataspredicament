@@ -116,6 +116,7 @@ public class PlayerBehaviour : MonoBehaviour
     private void Die()
     {
         isDead = true;
+        GetComponent<Animator>().SetBool("Dead", true);
         GetComponent<Rigidbody2D>().constraints = RigidbodyConstraints2D.FreezeAll;
         var activeScene = SceneManager.GetActiveScene();
         sceneChanger.FadeToScene(activeScene.buildIndex);
