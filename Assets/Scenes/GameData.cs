@@ -3,14 +3,14 @@ using UnityEngine;
 
 public class GameData : MonoBehaviour
 {
-    public static float INITIAL_ABILITY_TIMER = 30f;
+    public static float ABILITY_DURATION = 10f;
 
     public static Dictionary<Ability, float> MakeAbilityTimers()
     {
         var timers = new Dictionary<Ability, float>();
         foreach (Ability ability in System.Enum.GetValues(typeof(Ability)))
         {
-            timers.Add(ability, INITIAL_ABILITY_TIMER);
+            timers.Add(ability, 0f);
         }
         return timers;
     }
@@ -35,12 +35,12 @@ public class GameData : MonoBehaviour
             return false;
         }
 
-        abilityTimers[ability] = 30f;
+        abilityTimers[ability] = ABILITY_DURATION;
         //gems--;
         return true;
     }
 
-    private bool CanActivate(Ability ability)
+    public bool CanActivate(Ability ability)
     {
         if (gems <= 0)
         {
@@ -64,6 +64,11 @@ public class GameData : MonoBehaviour
     public float RemainingTimeFor(Ability ability)
     {
         return abilityTimers[ability];
+    }
+
+    public float RemainingFractionFor(Ability ability)
+    {
+        return RemainingTimeFor(ability) / ABILITY_DURATION;
     }
 
     public bool IsAbilityActive(Ability ability)

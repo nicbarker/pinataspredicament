@@ -5,21 +5,27 @@ public class ActivateAbilityBehaviour : MonoBehaviour
 {
     public GameData gameData;
     public Ability ability;
+    public Image overlay;
+
+    private Button button;
 
     void Start()
     {
-        GetComponent<Button>().onClick.AddListener(() => gameData.TryActivate(ability));
+        button = GetComponent<Button>();
+        button.onClick.AddListener(() => gameData.TryActivate(ability));
     }
 
     void Update()
     {
         if (gameData.IsAbilityActive(ability))
         {
-            GetComponentInChildren<Text>().text = ability.GetLabel() + " (" + (int)gameData.RemainingTimeFor(ability) + ")";
+            button.interactable = false;
+            overlay.fillAmount = gameData.RemainingFractionFor(ability);
         }
         else
         {
-            GetComponentInChildren<Text>().text = ability.GetLabel();
+            button.interactable = gameData.CanActivate(ability);
+            overlay.fillAmount = 0f;
         }
     }
 }
