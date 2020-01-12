@@ -6,6 +6,7 @@ public class ScrollingBackgroundBehaviour : MonoBehaviour
 {
     public GameObject player;
     public float fractionOfPlayerPosition = 1f;
+    public float YfractionOfPlayerPosition = 1f;
 
     private GameObject secondCopy;
 
@@ -35,12 +36,12 @@ public class ScrollingBackgroundBehaviour : MonoBehaviour
     {
         transform.position = new Vector3(
             Mathf.Max(initialXPosition + player.transform.position.x * fractionOfPlayerPosition, initialXPosition),
-            Mathf.Max(initialYPosition + player.transform.position.y * fractionOfPlayerPosition, initialYPosition),
+            Mathf.Max(initialYPosition + player.transform.position.y * YfractionOfPlayerPosition, initialYPosition),
             transform.position.z
         );
         secondCopy.transform.position = new Vector3(
             Mathf.Max(copyInitialXPosition + player.transform.position.x * fractionOfPlayerPosition, copyInitialXPosition),
-            Mathf.Max(initialYPosition + player.transform.position.y * fractionOfPlayerPosition, initialYPosition),
+            Mathf.Max(initialYPosition + player.transform.position.y * YfractionOfPlayerPosition, initialYPosition),
             transform.position.z
         );
 
