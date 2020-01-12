@@ -2,6 +2,8 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
+
+
 public class PlayerBehaviour : MonoBehaviour
 {
     public GameData gameData;
@@ -15,10 +17,17 @@ public class PlayerBehaviour : MonoBehaviour
     private bool isDoubleJumping = false;
     private bool isDead = false;
 
+    private AudioSource pickupAudioSource;
+    private AudioSource jumpAudioSource;
+    private AudioSource fallAudioSource;
+
     // Start is called before the first frame update
     void Start()
     {
-
+        var audioSources = GetComponents<AudioSource>();
+        pickupAudioSource = audioSources[0];
+        jumpAudioSource = audioSources[1];
+        fallAudioSource = audioSources[2];
     }
 
     // Update is called once per frame
@@ -97,6 +106,8 @@ public class PlayerBehaviour : MonoBehaviour
 
     private void PerformJump(int force)
     {
+        jumpAudioSource.Play(0);
+
         var rigidBodyComponent = GetComponent<Rigidbody2D>();
 
         // Remove all velocity in the y axis. Improves the feel of double jumping
@@ -115,8 +126,11 @@ public class PlayerBehaviour : MonoBehaviour
 
     private void Die()
     {
+        fallAudioSource.Play();
         isDead = true;
+
         GetComponent<Rigidbody2D>().constraints = RigidbodyConstraints2D.FreezeAll;
+
         var activeScene = SceneManager.GetActiveScene();
         sceneChanger.FadeToScene(activeScene.buildIndex);
     }
@@ -158,7 +172,7 @@ public class PlayerBehaviour : MonoBehaviour
 
     private void PlayPickupSoundAndDestroy(GameObject gameObject)
     {
-        GetComponent<AudioSource>().Play(0);
+        pickupAudioSource.Play(0);
         Destroy(gameObject);
     }
 }
