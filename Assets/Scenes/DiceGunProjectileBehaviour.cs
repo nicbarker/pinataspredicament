@@ -8,11 +8,8 @@ public class DiceGunProjectileBehaviour : MonoBehaviour
         switch ((Layers)collision.gameObject.layer)
         {
             case Layers.FloorAndWalls:
-                Destroy(gameObject);
-                return;
             case Layers.Enemies:
                 Destroy(gameObject);
-                Destroy(collision.gameObject);
                 return;
             default:
                 return;

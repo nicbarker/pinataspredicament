@@ -1,5 +1,4 @@
 ﻿using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class GhostBehaviour : MonoBehaviour
@@ -8,17 +7,18 @@ public class GhostBehaviour : MonoBehaviour
     public float verticalFloatDistance = 0.5f;
     public float movementSpeed = 0.1f;
     public bool movingLeft = true;
+    public int hitPoints = 3;
 
     private bool downwards = true;
     private float currentFloatTimer;
+    private int currentHitPoints;
 
-    // Start is called before the first frame update
     void Start()
     {
         currentFloatTimer = floatTimer;
+        currentHitPoints = hitPoints;
     }
 
-    // Update is called once per frame
     void Update()
     {
         currentFloatTimer -= Time.deltaTime;
@@ -44,8 +44,42 @@ public class GhostBehaviour : MonoBehaviour
                 movingLeft = !movingLeft;
                 GetComponent<SpriteRenderer>().flipX = !movingLeft;
                 return;
+            case Layers.Projectile:
+                OnHitByProjectile();
+                return;
             default:
                 return;
         }
+    }
+
+    private void OnHitByProjectile()
+    {
+        currentHitPoints--;
+        if (currentHitPoints <= 0)
+        {
+            Destroy(gameObject);
+        }
+        else
+        {
+            StartCoroutine(FlashSprite());
+        }
+    }
+
+    private IEnumerator FlashSprite()
+    {
+        var sprite = GetComponent<SpriteRenderer>();
+        for (var i = 0; i < 3; i++)
+        {
+            sprite.color = WithAlpha(sprite.color, 1.0f);
+            yield return new WaitForSeconds(0.1f);
+            sprite.color = WithAlpha(sprite.color, 0.5f);
+            yield return new WaitForSeconds(0.1f);
+        }
+        sprite.color = WithAlpha(sprite.color, 1.0f);
+    }
+
+    private Color WithAlpha(Color color, float alpha)
+    {
+        return new Color(r: color.r, g: color.g, b: color.b, a: alpha);
     }
 }
