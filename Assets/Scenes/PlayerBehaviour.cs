@@ -50,13 +50,12 @@ public class PlayerBehaviour : MonoBehaviour
             }
         }
 
-        if (Input.GetKeyDown(KeyCode.Q))
+        if (Input.GetKeyDown(KeyCode.Space))
         {
             OnDiceGun();
         }
 
-        if (Input.GetKeyDown(KeyCode.Space)
-            || Input.GetKeyDown(KeyCode.UpArrow)
+        if (Input.GetKeyDown(KeyCode.UpArrow)
             || Input.GetKeyDown(KeyCode.W))
         {
             OnJump();
