@@ -7,13 +7,17 @@ public class ScrollingBackgroundBehaviour : MonoBehaviour
     public GameObject player;
     public float fractionOfPlayerPosition = 1f;
 
-    private float initialXPosition;
     private GameObject secondCopy;
+
+    private float initialXPosition;
     private float copyInitialXPosition;
+
+    private float initialYPosition;
     // Start is called before the first frame update
     void Start()
     {
         initialXPosition = transform.position.x;
+        initialYPosition = transform.position.y;
         secondCopy = new GameObject();
         secondCopy.AddComponent<SpriteRenderer>();
         secondCopy.GetComponent<SpriteRenderer>().sprite = this.GetComponent<SpriteRenderer>().sprite;
@@ -31,25 +35,25 @@ public class ScrollingBackgroundBehaviour : MonoBehaviour
     {
         transform.position = new Vector3(
             Mathf.Max(initialXPosition + player.transform.position.x * fractionOfPlayerPosition, initialXPosition),
-            transform.position.y,
+            Mathf.Max(initialYPosition + player.transform.position.y * fractionOfPlayerPosition, initialYPosition),
             transform.position.z
         );
         secondCopy.transform.position = new Vector3(
             Mathf.Max(copyInitialXPosition + player.transform.position.x * fractionOfPlayerPosition, copyInitialXPosition),
-            transform.position.y,
+            Mathf.Max(initialYPosition + player.transform.position.y * fractionOfPlayerPosition, initialYPosition),
             transform.position.z
         );
 
         SpriteRenderer sprite = GetComponent<SpriteRenderer>();
-        float minOffset = Mathf.Max(sprite.bounds.size.x, 19.36338f);
-        if (initialXPosition + player.transform.position.x * fractionOfPlayerPosition < player.transform.position.x - minOffset)
+        float minXOffset = Mathf.Max(sprite.bounds.size.x, 19.36338f);
+        if (initialXPosition + player.transform.position.x * fractionOfPlayerPosition < player.transform.position.x - minXOffset)
         {
-            initialXPosition += minOffset * 2;
+            initialXPosition += minXOffset * 2;
         }
 
-        if (copyInitialXPosition + player.transform.position.x * fractionOfPlayerPosition < player.transform.position.x - minOffset)
+        if (copyInitialXPosition + player.transform.position.x * fractionOfPlayerPosition < player.transform.position.x - minXOffset)
         {
-            copyInitialXPosition += minOffset * 2;
+            copyInitialXPosition += minXOffset * 2;
         }
     }
 }
