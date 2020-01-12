@@ -13,6 +13,7 @@ public class UIBehaviour : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        GetComponentInChildren<Text>().text = gameData.gems.ToString();
+        GameObject.FindWithTag("GemCount").GetComponent<Text>().text = gameData.gems.ToString();
+        GameObject.FindWithTag("StarCount").GetComponent<Text>().text = gameData.stars.ToString();
     }
 }
