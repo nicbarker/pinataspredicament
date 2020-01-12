@@ -9,7 +9,7 @@ public class SceneChangerBehaviour : MonoBehaviour
     public async void FadeToScene(int sceneIndex)
     {
         animator.SetTrigger("FadeOut");
-        await Task.Delay(1000);
+        await Task.Delay(1500);
         SceneManager.LoadScene(sceneIndex);
     }
 }

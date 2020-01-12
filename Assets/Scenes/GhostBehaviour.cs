@@ -9,7 +9,11 @@ public class GhostBehaviour : MonoBehaviour
     public bool movingLeft = true;
     public int hitPoints = 3;
 
+    public AudioSource damageAudioSource;
+    public AudioSource deathAudioSource;
+
     private bool downwards = true;
+    private bool isDead = false;
     private float currentFloatTimer;
     private int currentHitPoints;
 
@@ -20,10 +24,19 @@ public class GhostBehaviour : MonoBehaviour
         currentFloatTimer = floatTimer;
         currentHitPoints = hitPoints;
         spriteRenderer = GetComponent<SpriteRenderer>();
+
+        var audioSources = GetComponents<AudioSource>();
+        damageAudioSource = audioSources[0];
+        deathAudioSource = audioSources[1];
     }
 
     void Update()
     {
+        if (isDead)
+        {
+            return;
+        }
+
         currentFloatTimer -= Time.deltaTime;
 
         transform.position = new Vector3(
@@ -63,39 +76,24 @@ public class GhostBehaviour : MonoBehaviour
 
     private IEnumerator TakeDamage()
     {
-        var audioSource = GetComponent<AudioSource>();
-        audioSource.Play(0);
-
         if (currentHitPoints <= 0)
         {
-            yield return Die(audioSource.clip.length);
+            deathAudioSource.Play();
+            yield return Die(deathAudioSource.clip.length);
         }
         else
         {
-            yield return FlashSprite();
+            damageAudioSource.Play();
+            yield return spriteRenderer.FlashTimes(3);
         }
     }
 
     private IEnumerator Die(float delay)
     {
+        isDead = true;
+        GetComponent<PolygonCollider2D>().enabled = false;
+        StartCoroutine(spriteRenderer.FlashForever());
         yield return new WaitForSeconds(delay);
         Destroy(gameObject);
-    }
-
-    private IEnumerator FlashSprite()
-    {
-        for (var i = 0; i < 3; i++)
-        {
-            spriteRenderer.color = WithAlpha(spriteRenderer.color, 1.0f);
-            yield return new WaitForSeconds(0.1f);
-            spriteRenderer.color = WithAlpha(spriteRenderer.color, 0.5f);
-            yield return new WaitForSeconds(0.1f);
-        }
-        spriteRenderer.color = WithAlpha(spriteRenderer.color, 1.0f);
-    }
-
-    private Color WithAlpha(Color color, float alpha)
-    {
-        return new Color(r: color.r, g: color.g, b: color.b, a: alpha);
     }
 }
