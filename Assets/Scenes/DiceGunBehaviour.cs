@@ -22,6 +22,9 @@ public class DiceGunBehaviour : MonoBehaviour
 
     private void Shoot(Vector3 startPosition, bool isFacingLeft)
     {
+        GetComponent<AudioSource>().Play(0);
+
+
         GameObject projectile = Instantiate(diceGunProjectilePrefab);
         projectile.transform.position = startPosition;
 
