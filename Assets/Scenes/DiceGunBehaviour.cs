@@ -3,6 +3,7 @@
 public class DiceGunBehaviour : MonoBehaviour
 {
     public GameObject diceGunProjectilePrefab;
+    public float projectileYOffset = 1f;
 
     private System.DateTime? lastShotAt = null;
 
@@ -26,7 +27,7 @@ public class DiceGunBehaviour : MonoBehaviour
 
 
         GameObject projectile = Instantiate(diceGunProjectilePrefab);
-        projectile.transform.position = startPosition;
+        projectile.transform.position = new Vector2(startPosition.x, startPosition.y + projectileYOffset);
 
         var rb = projectile.GetComponent<Rigidbody2D>();
 
