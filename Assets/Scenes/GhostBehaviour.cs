@@ -13,10 +13,13 @@ public class GhostBehaviour : MonoBehaviour
     private float currentFloatTimer;
     private int currentHitPoints;
 
+    private SpriteRenderer spriteRenderer;
+
     void Start()
     {
         currentFloatTimer = floatTimer;
         currentHitPoints = hitPoints;
+        spriteRenderer = GetComponent<SpriteRenderer>();
     }
 
     void Update()
@@ -42,7 +45,7 @@ public class GhostBehaviour : MonoBehaviour
         {
             case Layers.EdgeCollider:
                 movingLeft = !movingLeft;
-                GetComponent<SpriteRenderer>().flipX = !movingLeft;
+                spriteRenderer.flipX = !movingLeft;
                 return;
             case Layers.Projectile:
                 OnHitByProjectile();
@@ -55,27 +58,40 @@ public class GhostBehaviour : MonoBehaviour
     private void OnHitByProjectile()
     {
         currentHitPoints--;
+        StartCoroutine(TakeDamage());
+    }
+
+    private IEnumerator TakeDamage()
+    {
+        var audioSource = GetComponent<AudioSource>();
+        audioSource.Play(0);
+
         if (currentHitPoints <= 0)
         {
-            Destroy(gameObject);
+            yield return Die(audioSource.clip.length);
         }
         else
         {
-            StartCoroutine(FlashSprite());
+            yield return FlashSprite();
         }
+    }
+
+    private IEnumerator Die(float delay)
+    {
+        yield return new WaitForSeconds(delay);
+        Destroy(gameObject);
     }
 
     private IEnumerator FlashSprite()
     {
-        var sprite = GetComponent<SpriteRenderer>();
         for (var i = 0; i < 3; i++)
         {
-            sprite.color = WithAlpha(sprite.color, 1.0f);
+            spriteRenderer.color = WithAlpha(spriteRenderer.color, 1.0f);
             yield return new WaitForSeconds(0.1f);
-            sprite.color = WithAlpha(sprite.color, 0.5f);
+            spriteRenderer.color = WithAlpha(spriteRenderer.color, 0.5f);
             yield return new WaitForSeconds(0.1f);
         }
-        sprite.color = WithAlpha(sprite.color, 1.0f);
+        spriteRenderer.color = WithAlpha(spriteRenderer.color, 1.0f);
     }
 
     private Color WithAlpha(Color color, float alpha)

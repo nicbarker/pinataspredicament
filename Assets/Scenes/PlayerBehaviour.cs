@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Collections;
+using UnityEngine;
 using UnityEngine.SceneManagement;
 
 public class PlayerBehaviour : MonoBehaviour
@@ -141,7 +142,7 @@ public class PlayerBehaviour : MonoBehaviour
         {
             case Layers.Gems:
                 gameData.gems++;
-                Destroy(collision.gameObject);
+                PlayPickupSoundAndDestroy(collision.gameObject);
                 return;
             case Layers.Enemies:
             case Layers.DeathZone:
@@ -149,10 +150,16 @@ public class PlayerBehaviour : MonoBehaviour
                 return;
             case Layers.Stars:
                 gameData.stars++;
-                Destroy(collision.gameObject);
+                PlayPickupSoundAndDestroy(collision.gameObject);
                 return;
             default:
                 return;
         }
+    }
+
+    private void PlayPickupSoundAndDestroy(GameObject gameObject)
+    {
+        GetComponent<AudioSource>().Play(0);
+        Destroy(gameObject);
     }
 }
