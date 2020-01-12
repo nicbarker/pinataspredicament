@@ -74,14 +74,14 @@ public class PlayerBehaviour : MonoBehaviour
     private bool CanApplySpeed(float speed)
     {
         return System.Math.Abs(speed) > 0.001f && (
-            (speed > 0 && gameData.IsAbilityActive(Ability.MOVE_RIGHT))
-            || (speed < 0 && gameData.IsAbilityActive(Ability.MOVE_LEFT))
+            (speed > 0 && gameData.IsActiveOrTryActivate(Ability.MOVE_RIGHT))
+            || (speed < 0 && gameData.IsActiveOrTryActivate(Ability.MOVE_LEFT))
         );
     }
 
     private void OnDiceGun()
     {
-        if (!gameData.IsAbilityActive(Ability.DICE_GUN))
+        if (!gameData.IsActiveOrTryActivate(Ability.DICE_GUN))
         {
             return;
         }
@@ -92,12 +92,12 @@ public class PlayerBehaviour : MonoBehaviour
 
     private void OnJump()
     {
-        if (inContactWithGround && gameData.IsAbilityActive(Ability.JUMP))
+        if (inContactWithGround && gameData.IsActiveOrTryActivate(Ability.JUMP))
         {
             PerformJump(force: 2800);
             GetComponent<Animator>().SetBool("Jumping", true);
         }
-        else if (!isDoubleJumping && gameData.IsAbilityActive(Ability.DOUBLE_JUMP))
+        else if (!isDoubleJumping && gameData.IsActiveOrTryActivate(Ability.DOUBLE_JUMP))
         {
             isDoubleJumping = true;
             PerformJump(force: 1500);

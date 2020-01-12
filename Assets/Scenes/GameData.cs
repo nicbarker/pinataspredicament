@@ -28,6 +28,16 @@ public class GameData : MonoBehaviour
         }
     }
 
+    public bool IsActiveOrTryActivate(Ability ability)
+    {
+        if (IsAbilityActive(ability))
+        {
+            return true;
+        }
+
+        return TryActivate(ability);
+    }
+
     public bool TryActivate(Ability ability)
     {
         if (!CanActivate(ability))
@@ -36,7 +46,7 @@ public class GameData : MonoBehaviour
         }
 
         abilityTimers[ability] = ABILITY_DURATION;
-        //gems--;
+        gems--;
         return true;
     }
 
