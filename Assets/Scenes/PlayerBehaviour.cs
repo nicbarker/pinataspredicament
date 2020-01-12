@@ -6,22 +6,19 @@ public class PlayerBehaviour : MonoBehaviour
     public GameData gameData;
     public SceneChangerBehaviour sceneChanger;
     public DiceGunBehaviour diceGun;
+    public bool isMoving = true;
 
     public float basePlayerSpeed = 10;
-    public float animationStepTiming = 0.01f;
-    public Sprite idleSprite;
-    public Sprite[] walkingAnimationSteps;
 
     private bool inContactWithGround = true;
     private bool isDoubleJumping = false;
-    private int currentAnimationStep = 0;
-    private float currentAnimationStepTiming;
     private bool isDead = false;
+    private string animationState = "idle";
 
     // Start is called before the first frame update
     void Start()
     {
-        currentAnimationStepTiming = animationStepTiming;
+
     }
 
     // Update is called once per frame
@@ -38,26 +35,19 @@ public class PlayerBehaviour : MonoBehaviour
             GetComponent<SpriteRenderer>().flipX = speed < 0;
             transform.position += new Vector3(speed, 0, 0);
 
-            //if (inContactWithGround)
-            //{
-            //    currentAnimationStepTiming -= Time.deltaTime;
-
-            //    if (currentAnimationStepTiming < 0)
-            //    {
-            //        currentAnimationStep++;
-            //        if (currentAnimationStep > walkingAnimationSteps.Length - 1)
-            //        {
-            //            currentAnimationStep = 0;
-            //        }
-            //        currentAnimationStepTiming = animationStepTiming;
-            //        GetComponent<SpriteRenderer>().sprite = walkingAnimationSteps[currentAnimationStep];
-            //    }
-            //}
+            if (inContactWithGround && animationState != "walk")
+            {
+                animationState = "walk";
+                GetComponent<Animator>().SetBool("Moving", true);
+            }
         }
         else
         {
-            //currentAnimationStep = 0;
-            GetComponent<SpriteRenderer>().sprite = idleSprite;
+            if (inContactWithGround && animationState != "idle")
+            {
+                animationState = "idle";
+                GetComponent<Animator>().SetBool("Moving", false);
+            }
         }
 
         if (Input.GetKeyDown(KeyCode.Q))
