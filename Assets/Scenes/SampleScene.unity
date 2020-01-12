@@ -376,6 +376,7 @@ MonoBehaviour:
   verticalFloatDistance: 0.5
   movementSpeed: 3
   movingLeft: 1
+  hitPoints: 3
 --- !u!50 &116617401
 Rigidbody2D:
   serializedVersion: 4
@@ -589,10 +590,10 @@ RectTransform:
   m_Father: {fileID: 380180256}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0.5}
-  m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -554, y: 607}
-  m_SizeDelta: {x: 231.9, y: 119.3}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 769, y: -79}
+  m_SizeDelta: {x: 231.90002, y: 119.29999}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &231509477
 MonoBehaviour:
@@ -687,7 +688,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   gameData: {fileID: 1744078705}
   ability: 2
-  abilityLabel: Jump
 --- !u!1 &314075651
 GameObject:
   m_ObjectHideFlags: 0
@@ -877,6 +877,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   gameData: {fileID: 1744078705}
   sceneChanger: {fileID: 700869396}
+  diceGun: {fileID: 0}
   basePlayerSpeed: 10
   animationStepTiming: 0.05
   idleSprite: {fileID: 21300000, guid: 9bda779695a9349f68145bfdd2ca2e01, type: 3}
@@ -1739,10 +1740,10 @@ RectTransform:
   m_Father: {fileID: 380180256}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0.5}
-  m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -1057, y: 607}
-  m_SizeDelta: {x: 231.9, y: 119.3}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 266, y: -79}
+  m_SizeDelta: {x: 231.90002, y: 119.29999}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &773920413
 MonoBehaviour:
@@ -1758,7 +1759,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   gameData: {fileID: 1744078705}
   ability: 0
-  abilityLabel: Left
 --- !u!114 &773920414
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2446,10 +2446,10 @@ RectTransform:
   m_Father: {fileID: 380180256}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0.5}
-  m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -804, y: 607}
-  m_SizeDelta: {x: 231.9, y: 119.3}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 519, y: -79}
+  m_SizeDelta: {x: 231.90002, y: 119.29999}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1073576672
 MonoBehaviour:
@@ -2544,7 +2544,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   gameData: {fileID: 1744078705}
   ability: 1
-  abilityLabel: Right
 --- !u!1001 &1077312828
 PrefabInstance:
   m_ObjectHideFlags: 0
