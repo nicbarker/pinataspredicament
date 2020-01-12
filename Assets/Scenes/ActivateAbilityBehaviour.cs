@@ -19,7 +19,7 @@ public class ActivateAbilityBehaviour : MonoBehaviour
     {
         if (gameData.IsAbilityActive(ability))
         {
-            button.interactable = false;
+            button.interactable = true;
             overlay.fillAmount = gameData.RemainingFractionFor(ability);
         }
         else
