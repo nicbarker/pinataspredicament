@@ -18,6 +18,7 @@ public class GameData : MonoBehaviour
     public int gems = 0;
     public int stars = 0;
     private readonly Dictionary<Ability, float> abilityTimers = MakeAbilityTimers();
+    private bool hasActivatedAbility = false;
 
     void Update()
     {
@@ -45,9 +46,27 @@ public class GameData : MonoBehaviour
             return false;
         }
 
+        hasActivatedAbility = true;
         abilityTimers[ability] = ABILITY_DURATION;
         gems--;
         return true;
+    }
+
+    public bool IsGameOver()
+    {
+        return hasActivatedAbility && gems <= 0 && !AnyAbilityActive();
+    }
+
+    private bool AnyAbilityActive()
+    {
+        foreach (Ability ability in System.Enum.GetValues(typeof(Ability)))
+        {
+            if (IsAbilityActive(ability))
+            {
+                return true;
+            }
+        }
+        return false;
     }
 
     public bool CanActivate(Ability ability)

@@ -38,6 +38,12 @@ public class PlayerBehaviour : MonoBehaviour
             return;
         }
 
+        if (gameData.IsGameOver())
+        {
+            Die();
+            return;
+        }
+
         float speed = Input.GetAxisRaw("Horizontal") * Time.deltaTime * basePlayerSpeed;
         if (CanApplySpeed(speed))
         {
