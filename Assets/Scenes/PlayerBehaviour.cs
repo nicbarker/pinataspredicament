@@ -14,7 +14,6 @@ public class PlayerBehaviour : MonoBehaviour
     private bool inContactWithGround = true;
     private bool isDoubleJumping = false;
     private bool isDead = false;
-    private string animationState = "idle";
 
     // Start is called before the first frame update
     void Start()
@@ -36,18 +35,18 @@ public class PlayerBehaviour : MonoBehaviour
             GetComponent<SpriteRenderer>().flipX = speed < 0;
             transform.position += new Vector3(speed, 0, 0);
 
-            if (inContactWithGround && animationState != "walk")
+            if (inContactWithGround)
             {
-                animationState = "walk";
                 GetComponent<Animator>().SetBool("Moving", true);
+                GetComponent<Animator>().SetBool("Jumping", false);
             }
         }
         else
         {
-            if (inContactWithGround && animationState != "idle")
+            if (inContactWithGround)
             {
-                animationState = "idle";
                 GetComponent<Animator>().SetBool("Moving", false);
+                GetComponent<Animator>().SetBool("Jumping", false);
             }
         }
 
@@ -88,6 +87,7 @@ public class PlayerBehaviour : MonoBehaviour
         if (inContactWithGround && gameData.IsAbilityActive(Ability.JUMP))
         {
             PerformJump(force: 2800);
+            GetComponent<Animator>().SetBool("Jumping", true);
         }
         else if (!isDoubleJumping && gameData.IsAbilityActive(Ability.DOUBLE_JUMP))
         {
