@@ -3,7 +3,7 @@ using UnityEngine.UI;
 
 public class ActivateAbilityBehaviour : MonoBehaviour
 {
-    public GameData gameData;
+    private GameData gameData;
     public Ability ability;
     public Image overlay;
 
@@ -11,6 +11,7 @@ public class ActivateAbilityBehaviour : MonoBehaviour
 
     void Start()
     {
+        this.gameData = GameObject.FindGameObjectWithTag("GameData").GetComponent<GameData>();
         button = GetComponent<Button>();
         button.onClick.AddListener(() => gameData.TryActivate(ability));
     }
