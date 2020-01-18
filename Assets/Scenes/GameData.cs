@@ -45,7 +45,6 @@ public class GameData : MonoBehaviour
         {
             return false;
         }
-
         hasActivatedAbility = true;
         abilityTimers[ability] = ABILITY_DURATION;
         gems--;

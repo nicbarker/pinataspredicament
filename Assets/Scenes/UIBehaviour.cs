@@ -3,11 +3,11 @@ using UnityEngine.UI;
 
 public class UIBehaviour : MonoBehaviour
 {
-    public GameData gameData;
+    private GameData gameData;
     // Start is called before the first frame update
     void Start()
     {
-        
+        this.gameData = GameObject.FindGameObjectWithTag("GameData").GetComponent<GameData>();
     }
 
     // Update is called once per frame

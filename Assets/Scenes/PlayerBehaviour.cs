@@ -6,7 +6,7 @@ using UnityEngine.SceneManagement;
 
 public class PlayerBehaviour : MonoBehaviour
 {
-    public GameData gameData;
+    private GameData gameData;
     public SceneChangerBehaviour sceneChanger;
     public DiceGunBehaviour diceGun;
     public bool isMoving = true;
@@ -24,6 +24,7 @@ public class PlayerBehaviour : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        this.gameData = GameObject.FindGameObjectWithTag("GameData").GetComponent<GameData>();
         var audioSources = GetComponents<AudioSource>();
         pickupAudioSource = audioSources[0];
         jumpAudioSource = audioSources[1];
@@ -160,10 +161,6 @@ public class PlayerBehaviour : MonoBehaviour
     {
         switch ((Layers)collision.gameObject.layer)
         {
-            case Layers.Gems:
-                gameData.gems++;
-                PlayPickupSoundAndDestroy(collision.gameObject);
-                return;
             case Layers.Enemies:
             case Layers.DeathZone:
                 Die();

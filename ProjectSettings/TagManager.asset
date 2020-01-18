@@ -6,6 +6,8 @@ TagManager:
   tags:
   - GemCount
   - StarCount
+  - Fill
+  - GameData
   layers:
   - Default
   - TransparentFX
@@ -21,8 +23,8 @@ TagManager:
   - EdgeColliders
   - Stars
   - DeathZone
-  - 
-  - 
+  - Player
+  - Projectile
   - 
   - 
   - 
