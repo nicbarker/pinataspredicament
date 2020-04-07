@@ -3,7 +3,7 @@ using UnityEngine;
 
 public class GameData : MonoBehaviour
 {
-  public static float ABILITY_DURATION = 5f;
+  public static float ABILITY_DURATION = 10f;
 
   public static Dictionary<Ability, float> MakeAbilityTimers()
   {
@@ -20,40 +20,35 @@ public class GameData : MonoBehaviour
   public readonly Dictionary<Ability, float> abilityTimers = MakeAbilityTimers();
   private bool hasActivatedAbility = false;
 
-  void Update()
+  public bool TryUseAbility(Ability ability)
   {
-    var keys = new List<Ability>(abilityTimers.Keys);
-    foreach (var key in keys)
+    if (!IsAbilityActive(ability))
     {
-      abilityTimers[key] = Mathf.Max(0, abilityTimers[key] - Time.deltaTime);
+      if (gems <= 0)
+      {
+        return false;
+      }
+      hasActivatedAbility = true;
+      abilityTimers[ability] = ABILITY_DURATION;
+      gems--;
     }
-  }
-
-  public bool IsActiveOrTryActivate(Ability ability)
-  {
-    if (IsAbilityActive(ability))
+    switch (ability)
     {
-      return true;
+      case Ability.MOVE_LEFT:
+      case Ability.MOVE_RIGHT:
+        {
+          abilityTimers[ability] -= 0.01f;
+          break;
+        }
+      case Ability.JUMP:
+      case Ability.DOUBLE_JUMP:
+      case Ability.DICE_GUN:
+        {
+          abilityTimers[ability] -= ABILITY_DURATION / 3 + 0.05f;
+        }
+        break;
     }
-
-    return TryActivate(ability);
-  }
-
-  public bool TryActivate(Ability ability)
-  {
-    if (!CanActivate(ability))
-    {
-      return false;
-    }
-    hasActivatedAbility = true;
-    abilityTimers[ability] = ABILITY_DURATION;
-    gems--;
     return true;
-  }
-
-  public bool IsGameOver()
-  {
-    return hasActivatedAbility && gems <= 0 && !AnyAbilityActive();
   }
 
   private bool AnyAbilityActive()
@@ -66,27 +61,6 @@ public class GameData : MonoBehaviour
       }
     }
     return false;
-  }
-
-  public bool CanActivate(Ability ability)
-  {
-    if (gems <= 0)
-    {
-      return false;
-    }
-
-    switch (ability)
-    {
-      case Ability.JUMP:
-      case Ability.MOVE_LEFT:
-      case Ability.MOVE_RIGHT:
-      case Ability.DICE_GUN:
-        return true;
-      case Ability.DOUBLE_JUMP:
-        return IsAbilityActive(Ability.JUMP);
-      default:
-        throw new System.Exception($"Unknown ability {ability.ToString()}");
-    }
   }
 
   public float RemainingTimeFor(Ability ability)

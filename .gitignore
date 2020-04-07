@@ -61,3 +61,5 @@ crashlytics-build.properties
 
 Assets/TextMesh\ Pro/Documentation
 Assets/TextMesh\ Pro/Sprites
+
+.vscode

@@ -58,16 +58,16 @@ public class ActivateAbilityBehaviour : MonoBehaviour
   void Update()
   {
     int activeIndex = 0;
-    Array.Sort(this.activeAbilities, delegate (AbilityButton a, AbilityButton b) { return gameData.abilityTimers[a.ability] > gameData.abilityTimers[b.ability] ? 1 : -1; });
     for (int i = 0; i < this.activeAbilities.Length; i++)
     {
       var activeAbility = this.activeAbilities[i];
       // Set to EXITING when ability has expired
-      if (activeAbility.abilityState == AbilityState.ACTIVE && gameData.abilityTimers[activeAbility.ability] == 0)
+      if (activeAbility.abilityState == AbilityState.ACTIVE && gameData.abilityTimers[activeAbility.ability] <= 0)
       {
         activeAbility.abilityState = AbilityState.EXITING;
         activeAbilitiesCount--;
         activeAbility.tweenState = 0;
+        activeAbility.button.GetComponentInChildren<ParticleSystem>().Stop();
       }
       // Set to ENTERING when ability is first activated
       else if (activeAbility.abilityState == AbilityState.EXITED && gameData.abilityTimers[activeAbility.ability] > 0)
@@ -98,7 +98,15 @@ public class ActivateAbilityBehaviour : MonoBehaviour
           activeAbility.previousXPosition = newPosition;
           activeAbility.tweenState = 0;
         }
-        activeAbility.button.GetComponentsInChildren<Image>()[1].fillAmount = gameData.RemainingFractionFor(activeAbility.ability);
+        if (activeAbility.button.GetComponentsInChildren<Image>()[1].fillAmount != (float)Math.Round(1 - gameData.RemainingFractionFor(activeAbility.ability), 3))
+        {
+          activeAbility.button.GetComponentInChildren<ParticleSystem>().Play();
+          activeAbility.button.GetComponentsInChildren<Image>()[1].fillAmount = (float)Math.Round(1 - gameData.RemainingFractionFor(activeAbility.ability), 3);
+        }
+        else
+        {
+          activeAbility.button.GetComponentInChildren<ParticleSystem>().Stop();
+        }
         activeIndex++;
       }
       else if (activeAbility.abilityState == AbilityState.ENTERING)
