@@ -25,6 +25,8 @@ public class PlayerBehaviour : MonoBehaviour
   private float colorFlashTimer;
   private Color flashColor = new Color(0.41f, 0.65f, 0.76f);
 
+  private bool movementEnabled = true;
+
   // Start is called before the first frame update
   void Start()
   {
@@ -38,7 +40,7 @@ public class PlayerBehaviour : MonoBehaviour
   // Update is called once per frame
   void Update()
   {
-    if (isDead)
+    if (isDead || !movementEnabled)
     {
       return;
     }
@@ -52,16 +54,11 @@ public class PlayerBehaviour : MonoBehaviour
       if (inContactWithGround)
       {
         GetComponent<Animator>().SetBool("Moving", true);
-        GetComponent<Animator>().SetBool("Jumping", false);
       }
     }
-    else
+    else if (GetComponent<Animator>().GetBool("Moving"))
     {
-      if (inContactWithGround)
-      {
-        GetComponent<Animator>().SetBool("Moving", false);
-        GetComponent<Animator>().SetBool("Jumping", false);
-      }
+      GetComponent<Animator>().SetBool("Moving", false);
     }
 
     if (Input.GetKeyDown(KeyCode.Space))
@@ -152,6 +149,7 @@ public class PlayerBehaviour : MonoBehaviour
     rigidBodyComponent.AddForce(new Vector2(0, force));
 
     inContactWithGround = false;
+    GetComponent<Animator>().SetBool("Jumping", true);
   }
 
   private void Die()
@@ -173,6 +171,7 @@ public class PlayerBehaviour : MonoBehaviour
     {
       case Layers.FloorAndWalls:
         inContactWithGround = true;
+        GetComponent<Animator>().SetBool("Jumping", false);
         isDoubleJumping = false;
         return;
       default:
@@ -196,6 +195,9 @@ public class PlayerBehaviour : MonoBehaviour
         flashColor = new Color(0.41f, 0.65f, 0.76f);
         colorFlashTimer = 0.5f;
         return;
+      case Layers.EndZone:
+        GameObject.Find("MenuUI").GetComponent<GameMenuBehaviour>().ShowLevelEndScreen();
+        break;
       default:
         return;
     }
@@ -205,5 +207,11 @@ public class PlayerBehaviour : MonoBehaviour
   {
     pickupAudioSource.Play(0);
     Destroy(gameObject);
+  }
+
+  public void SetPlayerMovementEnabled(bool movementEnabled)
+  {
+    this.movementEnabled = movementEnabled;
+    GetComponent<Animator>().SetBool("Moving", false);
   }
 }

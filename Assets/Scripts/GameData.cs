@@ -16,9 +16,15 @@ public class GameData : MonoBehaviour
   }
 
   public int gems = 0;
+  public int totalGems;
   public int stars = 0;
   public readonly Dictionary<Ability, float> abilityTimers = MakeAbilityTimers();
   private bool hasActivatedAbility = false;
+
+  public static int[][] levelStarRanks = {
+    new int[]{ 0, 0, 0, 0 }, // Menu scene
+    new int[]{ 5, 6, 7, 8 }, // Level 1
+  };
 
   public bool TryUseAbility(Ability ability)
   {
@@ -51,6 +57,12 @@ public class GameData : MonoBehaviour
     return true;
   }
 
+  public void IncrementGems()
+  {
+    gems++;
+    totalGems++;
+  }
+
   private bool AnyAbilityActive()
   {
     foreach (Ability ability in System.Enum.GetValues(typeof(Ability)))
@@ -76,5 +88,26 @@ public class GameData : MonoBehaviour
   public bool IsAbilityActive(Ability ability)
   {
     return abilityTimers[ability] > 0;
+  }
+
+  public string getStarRank(int levelIndex)
+  {
+    int rankIndex = 0;
+    for (int i = 1; i < levelStarRanks[levelIndex].Length; i++)
+    {
+      if (stars >= levelStarRanks[levelIndex][i])
+      {
+        rankIndex = i;
+      }
+    }
+
+    switch (rankIndex)
+    {
+      case 0: return "C";
+      case 1: return "B";
+      case 2: return "A";
+      case 3: return "A+";
+      default: return "???";
+    }
   }
 }
