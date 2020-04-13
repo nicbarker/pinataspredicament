@@ -24,6 +24,9 @@ public class PlayerBehaviour : MonoBehaviour
 
   private float colorFlashTimer;
   private Color flashColor = new Color(0.41f, 0.65f, 0.76f);
+  // Managing moving platforms
+  private GameObject connectedFloor;
+  private float previousConnectedFloorPosition;
 
   private bool movementEnabled = true;
 
@@ -70,6 +73,17 @@ public class PlayerBehaviour : MonoBehaviour
     {
       GetComponent<SpriteRenderer>().color = Color.Lerp(flashColor, new Color(1, 1, 1), 1 - colorFlashTimer / 0.5f);
       colorFlashTimer -= Time.deltaTime;
+    }
+
+    // If the player is on a moving platform, update its position to match the platform's movement
+    if (connectedFloor != null)
+    {
+      var movement = connectedFloor.transform.position.x - previousConnectedFloorPosition;
+      if (Mathf.Abs(movement) > 0)
+      {
+        transform.position = new Vector3(transform.position.x + movement, transform.position.y, transform.position.z);
+      }
+      previousConnectedFloorPosition = connectedFloor.transform.position.x;
     }
   }
 
@@ -150,6 +164,8 @@ public class PlayerBehaviour : MonoBehaviour
 
     inContactWithGround = false;
     GetComponent<Animator>().SetBool("Jumping", true);
+    connectedFloor = null;
+    previousConnectedFloorPosition = 0;
   }
 
   private void Die()
@@ -171,6 +187,8 @@ public class PlayerBehaviour : MonoBehaviour
     {
       case Layers.FloorAndWalls:
         inContactWithGround = true;
+        connectedFloor = collision.gameObject;
+        previousConnectedFloorPosition = collision.gameObject.transform.position.x;
         GetComponent<Animator>().SetBool("Jumping", false);
         isDoubleJumping = false;
         return;

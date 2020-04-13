@@ -3,7 +3,7 @@ guid: 583818ad2f3e44181ac151e4ee23402a
 TextureImporter:
   internalIDToNameTable: []
   externalObjects: {}
-  serializedVersion: 10
+  serializedVersion: 11
   mipmaps:
     mipMapMode: 0
     enableMipMap: 0
@@ -47,16 +47,17 @@ TextureImporter:
   spritePivot: {x: 0.5, y: 0.5}
   spritePixelsToUnits: 100
   spriteBorder: {x: 378, y: 0, z: 409, w: 0}
-  spriteGenerateFallbackPhysicsShape: 1
+  spriteGenerateFallbackPhysicsShape: 0
   alphaUsage: 1
   alphaIsTransparency: 1
-  spriteTessellationDetail: -1
+  spriteTessellationDetail: 0
   textureType: 8
   textureShape: 1
   singleChannelComponent: 0
   maxTextureSizeSet: 0
   compressionQualitySet: 0
   textureFormatSet: 0
+  applyGammaDecoding: 1
   platformSettings:
   - serializedVersion: 3
     buildTarget: DefaultTexturePlatform
@@ -106,11 +107,37 @@ TextureImporter:
     overridden: 0
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: WebGL
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
   spriteSheet:
     serializedVersion: 2
     sprites: []
     outline: []
-    physicsShape: []
+    physicsShape:
+    - - {x: 923, y: -69}
+      - {x: 855, y: -88}
+      - {x: 520, y: -96}
+      - {x: -609, y: -98}
+      - {x: -835, y: -110}
+      - {x: -936, y: -77}
+      - {x: -957, y: -24}
+      - {x: -952, y: 38}
+      - {x: -915, y: 86}
+      - {x: -857.7408, y: 105.999985}
+      - {x: -110, y: 101}
+      - {x: 876, y: 111}
+      - {x: 942, y: 92}
+      - {x: 960, y: 38}
     bones: []
     spriteID: 5e97eb03825dee720800000000000000
     internalID: 0
