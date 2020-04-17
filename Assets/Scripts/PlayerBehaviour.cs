@@ -160,9 +160,7 @@ public class PlayerBehaviour : MonoBehaviour
     //      just applies 2500 again shortly after the first jump
     //   2. jumping while falling gives you the full jump height rather than
     //      slowing descent
-    rigidBodyComponent.velocity = new Vector2(rigidBodyComponent.velocity.x, 0);
-
-    rigidBodyComponent.AddForce(new Vector2(0, force));
+    rigidBodyComponent.velocity = new Vector2(rigidBodyComponent.velocity.x, 20);
 
     inContactWithGround = false;
     connectedFloor = null;
