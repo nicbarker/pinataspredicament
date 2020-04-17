@@ -53,15 +53,18 @@ public class PlayerBehaviour : MonoBehaviour
     {
       GetComponent<SpriteRenderer>().flipX = speed < 0;
       transform.position += new Vector3(speed, 0, 0);
-
-      if (inContactWithGround)
-      {
-        GetComponent<Animator>().SetBool("Moving", true);
-      }
+      GetComponent<Animator>().SetInteger("xVelocity", speed > 0 ? 1 : -1);
+    } else {
+      GetComponent<Animator>().SetInteger("xVelocity", 0);
     }
-    else if (GetComponent<Animator>().GetBool("Moving"))
-    {
-      GetComponent<Animator>().SetBool("Moving", false);
+
+    var yVelocity = Mathf.FloorToInt(gameObject.GetComponent<Rigidbody2D>().velocity.y);
+    if (yVelocity > 2) {
+      GetComponent<Animator>().SetInteger("yVelocity", 1);
+    } else if (yVelocity < -2) {
+      GetComponent<Animator>().SetInteger("yVelocity", -1);
+    } else {
+      GetComponent<Animator>().SetInteger("yVelocity", 0);
     }
 
     if (Input.GetKeyDown(KeyCode.Space))
@@ -136,7 +139,6 @@ public class PlayerBehaviour : MonoBehaviour
       if (isActiveNow)
       {
         PerformJump(force: 2800);
-        GetComponent<Animator>().SetBool("Jumping", true);
       }
     }
     else if (!isDoubleJumping && gameData.TryUseAbility(Ability.DOUBLE_JUMP))
@@ -163,7 +165,6 @@ public class PlayerBehaviour : MonoBehaviour
     rigidBodyComponent.AddForce(new Vector2(0, force));
 
     inContactWithGround = false;
-    GetComponent<Animator>().SetBool("Jumping", true);
     connectedFloor = null;
     previousConnectedFloorPosition = 0;
   }
@@ -173,8 +174,8 @@ public class PlayerBehaviour : MonoBehaviour
     fallAudioSource.Play();
     isDead = true;
 
-    GetComponent<Animator>().SetBool("Dead", true);
-    GetComponent<Rigidbody2D>().constraints = RigidbodyConstraints2D.FreezeAll;
+    // GetComponent<Animator>().SetBool("Dead", true);
+    // GetComponent<Rigidbody2D>().constraints = RigidbodyConstraints2D.FreezeAll;
 
     var activeScene = SceneManager.GetActiveScene();
     sceneChanger.FadeToScene(activeScene.buildIndex);
@@ -189,7 +190,6 @@ public class PlayerBehaviour : MonoBehaviour
         inContactWithGround = true;
         connectedFloor = collision.gameObject;
         previousConnectedFloorPosition = collision.gameObject.transform.position.x;
-        GetComponent<Animator>().SetBool("Jumping", false);
         isDoubleJumping = false;
         return;
       default:
@@ -230,6 +230,5 @@ public class PlayerBehaviour : MonoBehaviour
   public void SetPlayerMovementEnabled(bool movementEnabled)
   {
     this.movementEnabled = movementEnabled;
-    GetComponent<Animator>().SetBool("Moving", false);
   }
 }
