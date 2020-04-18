@@ -24,6 +24,7 @@ public class GameData : MonoBehaviour
   public static int[][] levelStarRanks = {
     new int[]{ 0, 0, 0, 0 }, // Menu scene
     new int[]{ 5, 6, 7, 8 }, // Level 1
+    new int[]{ 8, 9, 10, 11 }, // Level 2
   };
 
   public bool TryUseAbility(Ability ability)
