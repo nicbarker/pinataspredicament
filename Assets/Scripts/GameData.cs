@@ -3,7 +3,7 @@ using UnityEngine;
 
 public class GameData : MonoBehaviour
 {
-  public static float ABILITY_DURATION = 10f;
+  public float ABILITY_DURATION = 10f;
 
   public static Dictionary<Ability, float> MakeAbilityTimers()
   {

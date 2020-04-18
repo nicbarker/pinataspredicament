@@ -28,7 +28,7 @@ public class ActivateAbilityBehaviour : MonoBehaviour
   private AbilityButton[] activeAbilities = new AbilityButton[Enum.GetNames(typeof(Ability)).Length];
   private int activeAbilitiesCount;
   public GameObject UIButtonPrefab;
-  static int TOP_OFFSET = 500;
+  static int TOP_OFFSET = 600;
   static int BUTTON_GUTTER = 16;
   static float TWEEN_INCREMENT = 0.05f;
   static float BUTTON_SCALE_FACTOR = 1.7f;
@@ -91,7 +91,7 @@ public class ActivateAbilityBehaviour : MonoBehaviour
         if (newPosition != transform.localPosition.x)
         {
           transform.localPosition = new Vector3(Mathf.Lerp(activeAbility.previousXPosition, newPosition, activeAbility.tweenState), TOP_OFFSET, 0);
-          activeAbility.tweenState += TWEEN_INCREMENT;
+          activeAbility.tweenState += TWEEN_INCREMENT * Time.deltaTime * 100;
         }
         else
         {
@@ -124,7 +124,7 @@ public class ActivateAbilityBehaviour : MonoBehaviour
         {
           activeAbility.button.GetComponent<Image>().color = new Color(255, 255, 255, activeAbility.tweenState);
           activeAbility.button.transform.localScale = new Vector3(BUTTON_SCALE_FACTOR * activeAbility.tweenState, BUTTON_SCALE_FACTOR * activeAbility.tweenState, BUTTON_SCALE_FACTOR * activeAbility.tweenState);
-          activeAbility.tweenState += TWEEN_INCREMENT;
+          activeAbility.tweenState += TWEEN_INCREMENT * Time.deltaTime * 100;
         }
         else
         {
@@ -141,7 +141,7 @@ public class ActivateAbilityBehaviour : MonoBehaviour
           var invertedTweenState = 1 - activeAbility.tweenState;
           activeAbility.button.GetComponent<Image>().color = new Color(255, 255, 255, invertedTweenState);
           activeAbility.button.transform.localScale = new Vector3(BUTTON_SCALE_FACTOR * invertedTweenState, BUTTON_SCALE_FACTOR * invertedTweenState, BUTTON_SCALE_FACTOR * invertedTweenState);
-          activeAbility.tweenState += TWEEN_INCREMENT;
+          activeAbility.tweenState += TWEEN_INCREMENT * Time.deltaTime * 100;
         }
         else
         {

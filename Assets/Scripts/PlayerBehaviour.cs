@@ -14,7 +14,6 @@ public class PlayerBehaviour : MonoBehaviour
 
   public float basePlayerSpeed = 10;
 
-  private bool inContactWithGround = true;
   private bool isDoubleJumping = false;
   private bool isDead = false;
 
@@ -27,6 +26,10 @@ public class PlayerBehaviour : MonoBehaviour
   // Managing moving platforms
   private GameObject connectedFloor;
   private float previousConnectedFloorPosition;
+  // After the first left or right collision with a wall, block additional movement in that direction
+  // to prevent physics jank
+  private bool moveLeftBlocked;
+  private bool moveRightBlocked;
 
   private bool movementEnabled = true;
 
@@ -128,7 +131,7 @@ public class PlayerBehaviour : MonoBehaviour
 
   private void OnJump()
   {
-    if (inContactWithGround)
+    if (Mathf.Abs(Mathf.Floor(GetComponent<Rigidbody2D>().velocity.y)) < 2)
     {
       var wasActiveBefore = gameData.IsAbilityActive(Ability.JUMP);
       var isActiveNow = gameData.TryUseAbility(Ability.JUMP);
@@ -138,17 +141,17 @@ public class PlayerBehaviour : MonoBehaviour
       }
       if (isActiveNow)
       {
-        PerformJump(force: 2800);
+        PerformJump();
       }
     }
     else if (!isDoubleJumping && gameData.TryUseAbility(Ability.DOUBLE_JUMP))
     {
       isDoubleJumping = true;
-      PerformJump(force: 1500);
+      PerformJump();
     }
   }
 
-  private void PerformJump(int force)
+  private void PerformJump()
   {
     jumpAudioSource.Play(0);
 
@@ -162,7 +165,6 @@ public class PlayerBehaviour : MonoBehaviour
     //      slowing descent
     rigidBodyComponent.velocity = new Vector2(rigidBodyComponent.velocity.x, 20);
 
-    inContactWithGround = false;
     connectedFloor = null;
     previousConnectedFloorPosition = 0;
   }
@@ -185,7 +187,6 @@ public class PlayerBehaviour : MonoBehaviour
     switch ((Layers)collision.gameObject.layer)
     {
       case Layers.FloorAndWalls:
-        inContactWithGround = true;
         connectedFloor = collision.gameObject;
         previousConnectedFloorPosition = collision.gameObject.transform.position.x;
         isDoubleJumping = false;

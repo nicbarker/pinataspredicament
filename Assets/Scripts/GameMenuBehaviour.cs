@@ -22,6 +22,11 @@ public class GameMenuBehaviour : MonoBehaviour
     {
       GameObject.Find("SceneChanger").GetComponent<SceneChangerBehaviour>().RestartCurrentScene();
     });
+
+    GameObject.Find("ContinueButton").GetComponent<Button>().onClick.AddListener(() =>
+    {
+      GameObject.Find("SceneChanger").GetComponent<SceneChangerBehaviour>().FadeToScene(SceneManager.GetActiveScene().buildIndex + 1);
+    });
   }
 
   public void ShowLevelEndScreen()
