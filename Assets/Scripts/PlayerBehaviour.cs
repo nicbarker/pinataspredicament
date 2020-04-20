@@ -25,7 +25,7 @@ public class PlayerBehaviour : MonoBehaviour
   private Color flashColor = new Color(0.41f, 0.65f, 0.76f);
   // Managing moving platforms
   private GameObject connectedFloor;
-  private float previousConnectedFloorPosition;
+  private Vector2 previousConnectedFloorPosition;
   // After the first left or right collision with a wall, block additional movement in that direction
   // to prevent physics jank
   private bool moveLeftBlocked;
@@ -57,16 +57,23 @@ public class PlayerBehaviour : MonoBehaviour
       GetComponent<SpriteRenderer>().flipX = speed < 0;
       transform.position += new Vector3(speed, 0, 0);
       GetComponent<Animator>().SetInteger("xVelocity", speed > 0 ? 1 : -1);
-    } else {
+    }
+    else
+    {
       GetComponent<Animator>().SetInteger("xVelocity", 0);
     }
 
     var yVelocity = Mathf.FloorToInt(gameObject.GetComponent<Rigidbody2D>().velocity.y);
-    if (yVelocity > 2) {
+    if (yVelocity > 2)
+    {
       GetComponent<Animator>().SetInteger("yVelocity", 1);
-    } else if (yVelocity < -2) {
+    }
+    else if (yVelocity < -2)
+    {
       GetComponent<Animator>().SetInteger("yVelocity", -1);
-    } else {
+    }
+    else
+    {
       GetComponent<Animator>().SetInteger("yVelocity", 0);
     }
 
@@ -84,12 +91,19 @@ public class PlayerBehaviour : MonoBehaviour
     // If the player is on a moving platform, update its position to match the platform's movement
     if (connectedFloor != null)
     {
-      var movement = connectedFloor.transform.position.x - previousConnectedFloorPosition;
-      if (Mathf.Abs(movement) > 0)
+      var movementX = connectedFloor.transform.position.x - previousConnectedFloorPosition.x;
+      if (Mathf.Abs(movementX) > 0)
       {
-        transform.position = new Vector3(transform.position.x + movement, transform.position.y, transform.position.z);
+        transform.position = new Vector3(transform.position.x + movementX, transform.position.y, transform.position.z);
       }
-      previousConnectedFloorPosition = connectedFloor.transform.position.x;
+      previousConnectedFloorPosition.x = connectedFloor.transform.position.x;
+
+      var movementY = connectedFloor.transform.position.y - previousConnectedFloorPosition.y;
+      if (Mathf.Abs(movementY) > 0)
+      {
+        transform.position = new Vector3(transform.position.x, transform.position.y + movementY, transform.position.z);
+      }
+      previousConnectedFloorPosition.y = connectedFloor.transform.position.y;
     }
   }
 
@@ -165,8 +179,13 @@ public class PlayerBehaviour : MonoBehaviour
     //      slowing descent
     rigidBodyComponent.velocity = new Vector2(rigidBodyComponent.velocity.x, 20);
 
+    var movingPlatform = connectedFloor.GetComponent<MovingPlatformBehaviour>();
+    if (movingPlatform != null)
+    {
+      movingPlatform.playBounceAnimation();
+    }
     connectedFloor = null;
-    previousConnectedFloorPosition = 0;
+    previousConnectedFloorPosition = new Vector2(0, 0);
   }
 
   private void Die()
@@ -188,7 +207,7 @@ public class PlayerBehaviour : MonoBehaviour
     {
       case Layers.FloorAndWalls:
         connectedFloor = collision.gameObject;
-        previousConnectedFloorPosition = collision.gameObject.transform.position.x;
+        previousConnectedFloorPosition = collision.gameObject.transform.position;
         isDoubleJumping = false;
         return;
       default:

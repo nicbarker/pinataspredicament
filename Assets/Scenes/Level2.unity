@@ -5778,8 +5778,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -301.90002, y: 170}
-  m_SizeDelta: {x: 353, y: 65.3}
+  m_AnchoredPosition: {x: -236.83, y: 170}
+  m_SizeDelta: {x: 483.15, y: 65.3}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1304552281
 MonoBehaviour:
@@ -5812,7 +5812,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: 1. Dusk Desert
+  m_Text: 2. Floating Platforms
 --- !u!222 &1304552282
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -6058,6 +6058,7 @@ GameObject:
   - component: {fileID: 1445799475}
   - component: {fileID: 1445799474}
   - component: {fileID: 1445799472}
+  - component: {fileID: 1445799473}
   m_Layer: 8
   m_Name: StaticPlatform
   m_TagString: Untagged
@@ -6086,6 +6087,22 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 0
+--- !u!114 &1445799473
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1445799471}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 05da28e679085403e8407beb65da5102, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  speed: 1
+  direction: 1
+  moving: 0
+  activateOnTouch: 0
 --- !u!60 &1445799474
 PolygonCollider2D:
   m_ObjectHideFlags: 0
@@ -6526,6 +6543,11 @@ PrefabInstance:
         type: 3}
       propertyPath: initiallyMoving
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 920688961589856644, guid: 973353fd535ea4e2bb8880877822f186,
+        type: 3}
+      propertyPath: activateOnTouch
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 920688961589856645, guid: 973353fd535ea4e2bb8880877822f186,
         type: 3}
@@ -6969,6 +6991,11 @@ PrefabInstance:
         type: 3}
       propertyPath: initiallyMoving
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 920688961589856644, guid: 973353fd535ea4e2bb8880877822f186,
+        type: 3}
+      propertyPath: activateOnTouch
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 920688961589856645, guid: 973353fd535ea4e2bb8880877822f186,
         type: 3}
@@ -7752,6 +7779,11 @@ PrefabInstance:
         type: 3}
       propertyPath: initiallyMoving
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 920688961589856644, guid: 973353fd535ea4e2bb8880877822f186,
+        type: 3}
+      propertyPath: activateOnTouch
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 920688961589856645, guid: 973353fd535ea4e2bb8880877822f186,
         type: 3}
@@ -8621,6 +8653,21 @@ PrefabInstance:
       propertyPath: m_Name
       value: Player
       objectReference: {fileID: 0}
+    - target: {fileID: 6722061232741296203, guid: e304e12382d124bbe9d9f39b7ab64eb0,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6722061232741296204, guid: e304e12382d124bbe9d9f39b7ab64eb0,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6722061232741296205, guid: e304e12382d124bbe9d9f39b7ab64eb0,
+        type: 3}
+      propertyPath: m_BodyType
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 6722061232741296206, guid: e304e12382d124bbe9d9f39b7ab64eb0,
         type: 3}
       propertyPath: m_Enabled
@@ -8629,12 +8676,12 @@ PrefabInstance:
     - target: {fileID: 6722061232741296207, guid: e304e12382d124bbe9d9f39b7ab64eb0,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: 134.5144
+      value: -7.433
       objectReference: {fileID: 0}
     - target: {fileID: 6722061232741296207, guid: e304e12382d124bbe9d9f39b7ab64eb0,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 16.820776
+      value: -3.182
       objectReference: {fileID: 0}
     - target: {fileID: 6722061232741296207, guid: e304e12382d124bbe9d9f39b7ab64eb0,
         type: 3}
