@@ -13,7 +13,6 @@ public class GameMenuBehaviour : MonoBehaviour
     StartMenu.Find("StartButton").GetComponent<Button>().onClick.AddListener(() =>
     {
       var player = GameObject.Find("Player");
-      player.GetComponent<Rigidbody2D>().bodyType = RigidbodyType2D.Dynamic;
       player.GetComponent<SpriteRenderer>().enabled = true;
       StartMenu.GetComponent<Canvas>().enabled = false;
     });

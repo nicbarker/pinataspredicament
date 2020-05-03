@@ -54,11 +54,16 @@ public class MovingPlatformBehaviour : MonoBehaviour
 
   private void OnTriggerEnter2D(Collider2D collision)
   {
-    Debug.Log("trigger");
     switch ((Layers)collision.gameObject.layer)
     {
       case Layers.EdgeCollider:
         direction = direction == DIRECTION.RIGHT ? DIRECTION.LEFT : DIRECTION.RIGHT;
+        return;
+      case Layers.Player:
+        if (activateOnTouch)
+        {
+          moving = true;
+        }
         return;
     }
   }
@@ -74,7 +79,6 @@ public class MovingPlatformBehaviour : MonoBehaviour
   {
     if (activateOnTouch)
     {
-      moving = true;
     }
 
     if (bounceTimer <= 0 && collision.relativeVelocity.magnitude > 3 && (collision.gameObject.transform.position - transform.position).normalized.y > 0.1)

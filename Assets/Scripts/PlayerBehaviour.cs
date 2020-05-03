@@ -2,8 +2,7 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-
-
+[RequireComponent(typeof(Controller2D))]
 public class PlayerBehaviour : MonoBehaviour
 {
   private GameData gameData;
@@ -33,6 +32,13 @@ public class PlayerBehaviour : MonoBehaviour
 
   private bool movementEnabled = true;
 
+  float jumpHeight = 4;
+  float timeToJumpApex = 0.3f;
+  Controller2D controller;
+  float gravity = -50;
+  Vector3 velocity;
+  float velocityXSmoothing;
+
   // Start is called before the first frame update
   void Start()
   {
@@ -41,6 +47,7 @@ public class PlayerBehaviour : MonoBehaviour
     pickupAudioSource = audioSources[0];
     jumpAudioSource = audioSources[1];
     fallAudioSource = audioSources[2];
+    controller = GetComponent<Controller2D>();
   }
 
   // Update is called once per frame
@@ -51,35 +58,55 @@ public class PlayerBehaviour : MonoBehaviour
       return;
     }
 
-    float speed = Input.GetAxisRaw("Horizontal") * Time.deltaTime * basePlayerSpeed;
+    Vector2 input = new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical"));
+    float speed = input.x * basePlayerSpeed;
     if (CanApplySpeed(speed))
     {
       GetComponent<SpriteRenderer>().flipX = speed < 0;
-      transform.position += new Vector3(speed, 0, 0);
+      float targetVelocityX = input.x * basePlayerSpeed;
+      velocity.x = Mathf.SmoothDamp(velocity.x, targetVelocityX, ref velocityXSmoothing, 0.05f);
       GetComponent<Animator>().SetInteger("xVelocity", speed > 0 ? 1 : -1);
     }
     else
     {
       GetComponent<Animator>().SetInteger("xVelocity", 0);
+      velocity.x = 0;
     }
 
-    var yVelocity = Mathf.FloorToInt(gameObject.GetComponent<Rigidbody2D>().velocity.y);
-    if (yVelocity > 2)
+    if (controller.collisions.above || controller.collisions.below)
+    {
+      velocity.y = 0;
+
+      if (controller.collisions.below)
+      {
+        // Move player with moving platforms
+        transform.position += new Vector3(
+          controller.collisions.connectedBody.position.x - controller.collisions.oldConnectedBodyPosition.x,
+          controller.collisions.connectedBody.position.y - controller.collisions.oldConnectedBodyPosition.y,
+          0
+        );
+        isDoubleJumping = false;
+      }
+    }
+
+    if (Input.GetKeyDown(KeyCode.Space))
+    {
+      OnJump();
+    }
+
+    velocity.y += gravity * Time.deltaTime;
+    controller.Move(velocity * Time.deltaTime);
+    if (!controller.collisions.below && velocity.y > 2)
     {
       GetComponent<Animator>().SetInteger("yVelocity", 1);
     }
-    else if (yVelocity < -2)
+    else if (!controller.collisions.below && velocity.y < -1)
     {
       GetComponent<Animator>().SetInteger("yVelocity", -1);
     }
     else
     {
       GetComponent<Animator>().SetInteger("yVelocity", 0);
-    }
-
-    if (Input.GetKeyDown(KeyCode.Space))
-    {
-      OnJump();
     }
 
     if (colorFlashTimer > 0)
@@ -145,7 +172,7 @@ public class PlayerBehaviour : MonoBehaviour
 
   private void OnJump()
   {
-    if (Mathf.Abs(Mathf.Floor(GetComponent<Rigidbody2D>().velocity.y)) < 2)
+    if (controller.collisions.below)
     {
       var wasActiveBefore = gameData.IsAbilityActive(Ability.JUMP);
       var isActiveNow = gameData.TryUseAbility(Ability.JUMP);
@@ -155,37 +182,16 @@ public class PlayerBehaviour : MonoBehaviour
       }
       if (isActiveNow)
       {
-        PerformJump();
+        jumpAudioSource.Play(0);
+        velocity.y = 20;
       }
     }
     else if (!isDoubleJumping && gameData.TryUseAbility(Ability.DOUBLE_JUMP))
     {
       isDoubleJumping = true;
-      PerformJump();
+      jumpAudioSource.Play(0);
+      velocity.y = 20;
     }
-  }
-
-  private void PerformJump()
-  {
-    jumpAudioSource.Play(0);
-
-    var rigidBodyComponent = GetComponent<Rigidbody2D>();
-
-    // Remove all velocity in the y axis. Improves the feel of double jumping
-    // for two reasons:
-    //   1. spamming double jumping twice doesn't apply ~5000 units of force,
-    //      just applies 2500 again shortly after the first jump
-    //   2. jumping while falling gives you the full jump height rather than
-    //      slowing descent
-    rigidBodyComponent.velocity = new Vector2(rigidBodyComponent.velocity.x, 20);
-
-    var movingPlatform = connectedFloor.GetComponent<MovingPlatformBehaviour>();
-    if (movingPlatform != null)
-    {
-      movingPlatform.playBounceAnimation();
-    }
-    connectedFloor = null;
-    previousConnectedFloorPosition = new Vector2(0, 0);
   }
 
   private void Die()
@@ -198,21 +204,6 @@ public class PlayerBehaviour : MonoBehaviour
 
     var activeScene = SceneManager.GetActiveScene();
     sceneChanger.FadeToScene(activeScene.buildIndex);
-  }
-
-  private void OnCollisionEnter2D(Collision2D collision)
-  {
-
-    switch ((Layers)collision.gameObject.layer)
-    {
-      case Layers.FloorAndWalls:
-        connectedFloor = collision.gameObject;
-        previousConnectedFloorPosition = collision.gameObject.transform.position;
-        isDoubleJumping = false;
-        return;
-      default:
-        return;
-    }
   }
 
   private void OnTriggerEnter2D(Collider2D collision)

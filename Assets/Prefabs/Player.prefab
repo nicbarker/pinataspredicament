@@ -226,7 +226,6 @@ GameObject:
   m_Component:
   - component: {fileID: 6722061232741296207}
   - component: {fileID: 6722061232741296206}
-  - component: {fileID: 6722061232741296205}
   - component: {fileID: 6722061232741296192}
   - component: {fileID: 6722061232741296194}
   - component: {fileID: 6722061232741296193}
@@ -235,6 +234,7 @@ GameObject:
   - component: {fileID: 6722061232741296197}
   - component: {fileID: 6722061232741296198}
   - component: {fileID: 6722061232741296195}
+  - component: {fileID: 5790289389025793492}
   m_Layer: 14
   m_Name: Player
   m_TagString: Untagged
@@ -307,27 +307,6 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!50 &6722061232741296205
-Rigidbody2D:
-  serializedVersion: 4
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6722061232741296203}
-  m_BodyType: 2
-  m_Simulated: 1
-  m_UseFullKinematicContacts: 0
-  m_UseAutoMass: 0
-  m_Mass: 3
-  m_LinearDrag: 0
-  m_AngularDrag: 0.05
-  m_GravityScale: 5
-  m_Material: {fileID: 0}
-  m_Interpolate: 0
-  m_SleepingMode: 1
-  m_CollisionDetection: 0
-  m_Constraints: 4
 --- !u!114 &6722061232741296192
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -800,3 +779,21 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!114 &5790289389025793492
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6722061232741296203}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7789a5ca47bde4aaf888c8d046fea31d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  horizontalRayCount: 12
+  verticalRayCount: 12
+  collisionMask:
+    serializedVersion: 2
+    m_Bits: 256
+  maxClimbAngle: 80
