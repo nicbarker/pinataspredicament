@@ -33,12 +33,19 @@ public class Controller2D : MonoBehaviour
     }
     if (velocity.x != 0)
     {
+      collisions.left = collisions.right = false;
       HorizontalCollisions(ref velocity);
     }
     if (velocity.y != 0)
     {
+      collisions.above = collisions.below = false;
       VerticalCollisions(ref velocity);
     }
+    if (collisions.connectedBody)
+    {
+      collisions.oldConnectedBodyPosition = collisions.connectedBody.transform.position;
+    }
+
     transform.Translate(velocity);
   }
 
@@ -82,12 +89,6 @@ public class Controller2D : MonoBehaviour
           collisions.left = directionX == -1;
           collisions.right = directionX == 1;
         }
-
-        if (collisions.below)
-        {
-          collisions.connectedBody = hit.transform;
-          collisions.oldConnectedBodyPosition = hit.transform.position;
-        }
       }
     }
   }
@@ -118,10 +119,26 @@ public class Controller2D : MonoBehaviour
 
         if (collisions.below)
         {
+          // If this is the first impact with a moving platform and downward velocity is fast enough
+          // play a small bounce animation on the moving platform
+          if (collisions.connectedBody == null && velocity.y < -0.02f)
+          {
+            var platformBehaviour = hit.transform.gameObject.GetComponent<MovingPlatformBehaviour>();
+            if (platformBehaviour != null)
+            {
+              platformBehaviour.playBounceAnimation();
+            }
+          }
           collisions.connectedBody = hit.transform;
           collisions.oldConnectedBodyPosition = hit.transform.position;
         }
       }
+    }
+
+    if (!collisions.below && collisions.connectedBody != null)
+    {
+      collisions.connectedBody = null;
+      collisions.oldConnectedBodyPosition = new Vector2(0, 0);
     }
 
     if (collisions.climbingSlope)
@@ -222,11 +239,9 @@ public class Controller2D : MonoBehaviour
 
     public void Reset()
     {
-      above = below = left = right = climbingSlope = false;
+      climbingSlope = false;
       slopeAngleOld = slopeAngle;
       slopeAngle = 0;
-      connectedBody = null;
-      oldConnectedBodyPosition = new Vector2(0, 0);
     }
   }
 

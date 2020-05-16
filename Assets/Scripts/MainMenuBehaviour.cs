@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 public class MainMenuBehaviour : MonoBehaviour
 {
+    static int WORLD_COUNT = 3;
     // Start is called before the first frame update
     void Start()
     {
@@ -11,17 +12,10 @@ public class MainMenuBehaviour : MonoBehaviour
             transform.Find("Worlds").GetComponent<Canvas>().enabled = true;
             transform.Find("MainMenu").GetComponent<Canvas>().enabled = false;
         });
-        GameObject.Find("World1Button").GetComponent<Button>().onClick.AddListener(() => {
-            GameObject.Find("SceneChanger").GetComponent<SceneChangerBehaviour>().FadeToScene(1);
-        });
-        GameObject.Find("World2Button").GetComponent<Button>().onClick.AddListener(() => {
-            GameObject.Find("SceneChanger").GetComponent<SceneChangerBehaviour>().FadeToScene(2);
-        });
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
+        for (int i = 0; i < WORLD_COUNT; i++) {
+            GameObject.Find("World" + (i + 1).ToString() + "Button").GetComponent<Button>().onClick.AddListener(() => {
+                GameObject.Find("SceneChanger").GetComponent<SceneChangerBehaviour>().FadeToScene(i);
+            });
+        }
     }
 }

@@ -14,6 +14,7 @@ public class GameMenuBehaviour : MonoBehaviour
     {
       var player = GameObject.Find("Player");
       player.GetComponent<SpriteRenderer>().enabled = true;
+      player.GetComponent<PlayerBehaviour>().SetPlayerMovementEnabled(true);
       StartMenu.GetComponent<Canvas>().enabled = false;
     });
 
@@ -25,6 +26,11 @@ public class GameMenuBehaviour : MonoBehaviour
     GameObject.Find("ContinueButton").GetComponent<Button>().onClick.AddListener(() =>
     {
       GameObject.Find("SceneChanger").GetComponent<SceneChangerBehaviour>().FadeToScene(SceneManager.GetActiveScene().buildIndex + 1);
+    });
+
+    GameObject.Find("MenuButton").GetComponent<Button>().onClick.AddListener(() =>
+    {
+      GameObject.Find("SceneChanger").GetComponent<SceneChangerBehaviour>().FadeToScene(0);
     });
   }
 

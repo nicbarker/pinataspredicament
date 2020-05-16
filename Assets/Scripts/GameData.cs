@@ -25,6 +25,7 @@ public class GameData : MonoBehaviour
     new int[]{ 0, 0, 0, 0 }, // Menu scene
     new int[]{ 5, 6, 7, 8 }, // Level 1
     new int[]{ 8, 9, 10, 11 }, // Level 2
+    new int[]{ 8, 9, 10, 11 }, // Level 3 TODO (nicbarker) unfinished
   };
 
   public bool TryUseAbility(Ability ability)

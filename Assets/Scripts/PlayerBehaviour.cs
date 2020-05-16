@@ -30,7 +30,7 @@ public class PlayerBehaviour : MonoBehaviour
   private bool moveLeftBlocked;
   private bool moveRightBlocked;
 
-  private bool movementEnabled = true;
+  private bool movementEnabled = false;
 
   float jumpHeight = 4;
   float timeToJumpApex = 0.3f;
@@ -53,14 +53,14 @@ public class PlayerBehaviour : MonoBehaviour
   // Update is called once per frame
   void Update()
   {
-    if (isDead || !movementEnabled)
+    if (!movementEnabled)
     {
       return;
     }
 
     Vector2 input = new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical"));
     float speed = input.x * basePlayerSpeed;
-    if (CanApplySpeed(speed))
+    if (CanApplySpeed(speed) && !isDead)
     {
       GetComponent<SpriteRenderer>().flipX = speed < 0;
       float targetVelocityX = input.x * basePlayerSpeed;
@@ -77,30 +77,29 @@ public class PlayerBehaviour : MonoBehaviour
     {
       velocity.y = 0;
 
-      if (controller.collisions.below)
+      if (controller.collisions.below && controller.collisions.connectedBody)
       {
         // Move player with moving platforms
-        transform.position += new Vector3(
+        controller.Move(new Vector2(
           controller.collisions.connectedBody.position.x - controller.collisions.oldConnectedBodyPosition.x,
-          controller.collisions.connectedBody.position.y - controller.collisions.oldConnectedBodyPosition.y,
-          0
-        );
+          controller.collisions.connectedBody.position.y - controller.collisions.oldConnectedBodyPosition.y
+        ));
         isDoubleJumping = false;
       }
     }
 
-    if (Input.GetKeyDown(KeyCode.Space))
+    if (Input.GetKeyDown(KeyCode.Space) && !isDead)
     {
       OnJump();
     }
 
     velocity.y += gravity * Time.deltaTime;
     controller.Move(velocity * Time.deltaTime);
-    if (!controller.collisions.below && velocity.y > 2)
+    if (!controller.collisions.below && velocity.y > 2 && !controller.collisions.climbingSlope)
     {
       GetComponent<Animator>().SetInteger("yVelocity", 1);
     }
-    else if (!controller.collisions.below && velocity.y < -1)
+    else if (!controller.collisions.below && velocity.y < -1 && !controller.collisions.climbingSlope)
     {
       GetComponent<Animator>().SetInteger("yVelocity", -1);
     }
@@ -185,6 +184,12 @@ public class PlayerBehaviour : MonoBehaviour
         jumpAudioSource.Play(0);
         velocity.y = 20;
       }
+
+      var platformBehaviour = controller.collisions.connectedBody.gameObject.GetComponent<MovingPlatformBehaviour>();
+      if (platformBehaviour != null)
+      {
+        platformBehaviour.playBounceAnimation();
+      }
     }
     else if (!isDoubleJumping && gameData.TryUseAbility(Ability.DOUBLE_JUMP))
     {
@@ -223,6 +228,7 @@ public class PlayerBehaviour : MonoBehaviour
         colorFlashTimer = 0.5f;
         return;
       case Layers.EndZone:
+        movementEnabled = false;
         GameObject.Find("MenuUI").GetComponent<GameMenuBehaviour>().ShowLevelEndScreen();
         break;
       default:

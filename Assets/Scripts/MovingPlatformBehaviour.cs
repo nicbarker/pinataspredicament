@@ -15,6 +15,7 @@ public class MovingPlatformBehaviour : MonoBehaviour
 
   public bool moving = true;
   public bool activateOnTouch = true;
+  public List<GameObject> linkedPlatforms = new List<GameObject>();
   // Update is called once per frame
   private float bounceDelay = 0;
   private float bounceTimer = 0;
@@ -42,7 +43,7 @@ public class MovingPlatformBehaviour : MonoBehaviour
       float newYPosition = (1 - Mathf.Pow((bounceTimer - 0.5f), 2) * 4) * 0.10f;
       transform.position = new Vector3(
         transform.position.x,
-        preBounceY - newYPosition,
+        bounceTimer <= 0 ? preBounceY : preBounceY - newYPosition,
         transform.position.z
       );
     }
@@ -63,6 +64,10 @@ public class MovingPlatformBehaviour : MonoBehaviour
         if (activateOnTouch)
         {
           moving = true;
+          foreach (GameObject linkedPlatform in linkedPlatforms)
+          {
+            linkedPlatform.GetComponent<MovingPlatformBehaviour>().moving = true;
+          }
         }
         return;
     }
@@ -73,17 +78,5 @@ public class MovingPlatformBehaviour : MonoBehaviour
     preBounceY = transform.position.y;
     bounceDelay = 0.08f;
     bounceTimer = 1.0f;
-  }
-
-  private void OnCollisionEnter2D(Collision2D collision)
-  {
-    if (activateOnTouch)
-    {
-    }
-
-    if (bounceTimer <= 0 && collision.relativeVelocity.magnitude > 3 && (collision.gameObject.transform.position - transform.position).normalized.y > 0.1)
-    {
-      playBounceAnimation();
-    }
   }
 }
